@@ -1,0 +1,239 @@
+SQL> select distinct
+  2  from
+  3  sekect
+  4  select distinct dname
+  5  from emp;
+from
+*
+ERROR at line 2:
+ORA-00936: missing expression 
+
+
+SQL> SELECT DISTINCT DNAME
+  2  FROM DEPT;
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+ACCOUNTING                                                                                                                                                                                              
+OPERATIONS                                                                                                                                                                                              
+RESEARCH                                                                                                                                                                                                
+SALES                                                                                                                                                                                                   
+
+SQL> SET PAGES 200 LINES 200
+SQL> SELECT DISTINCT JOB, SAL
+  2  FROM EMP;
+
+JOB              SAL                                                                                                                                                                                    
+--------- ----------                                                                                                                                                                                    
+CLERK           1300                                                                                                                                                                                    
+SALESMAN        1600                                                                                                                                                                                    
+SALESMAN        1250                                                                                                                                                                                    
+CLERK            950                                                                                                                                                                                    
+CLERK            800                                                                                                                                                                                    
+MANAGER         2450                                                                                                                                                                                    
+PRESIDENT       5000                                                                                                                                                                                    
+ANALYST         3000                                                                                                                                                                                    
+MANAGER         2850                                                                                                                                                                                    
+MANAGER         2975                                                                                                                                                                                    
+SALESMAN        1500                                                                                                                                                                                    
+CLERK           1100                                                                                                                                                                                    
+
+12 rows selected.
+
+SQL> select sal*12
+  2  from emp;
+
+    SAL*12                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      9600                                                                                                                                                                                              
+     19200                                                                                                                                                                                              
+     15000                                                                                                                                                                                              
+     35700                                                                                                                                                                                              
+     15000                                                                                                                                                                                              
+     34200                                                                                                                                                                                              
+     29400                                                                                                                                                                                              
+     36000                                                                                                                                                                                              
+     60000                                                                                                                                                                                              
+     18000                                                                                                                                                                                              
+     13200                                                                                                                                                                                              
+     11400                                                                                                                                                                                              
+     36000                                                                                                                                                                                              
+     15600                                                                                                                                                                                              
+
+14 rows selected.
+
+SQL> select sal+200
+  2  from emp;
+
+   SAL+200                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      1000                                                                                                                                                                                              
+      1800                                                                                                                                                                                              
+      1450                                                                                                                                                                                              
+      3175                                                                                                                                                                                              
+      1450                                                                                                                                                                                              
+      3050                                                                                                                                                                                              
+      2650                                                                                                                                                                                              
+      3200                                                                                                                                                                                              
+      5200                                                                                                                                                                                              
+      1700                                                                                                                                                                                              
+      1300                                                                                                                                                                                              
+      1150                                                                                                                                                                                              
+      3200                                                                                                                                                                                              
+      1500                                                                                                                                                                                              
+
+14 rows selected.
+
+SQL> select sal*12-500
+  2  from emp:
+  3  SELECT SAL*12-500
+  4  FROM EMP;
+SP2-0552: Bind variable "SELECT" not declared.
+SQL> SELECT SAL*12-500
+  2  FROM EMP;
+
+SAL*12-500                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      9100                                                                                                                                                                                              
+     18700                                                                                                                                                                                              
+     14500                                                                                                                                                                                              
+     35200                                                                                                                                                                                              
+     14500                                                                                                                                                                                              
+     33700                                                                                                                                                                                              
+     28900                                                                                                                                                                                              
+     35500                                                                                                                                                                                              
+     59500                                                                                                                                                                                              
+     17500                                                                                                                                                                                              
+     12700                                                                                                                                                                                              
+     10900                                                                                                                                                                                              
+     35500                                                                                                                                                                                              
+     15100                                                                                                                                                                                              
+
+14 rows selected.
+
+SQL> SELECT SAL+SAL*20/100
+  2  FROM EMP;
+
+SAL+SAL*20/100                                                                                                                                                                                          
+--------------                                                                                                                                                                                          
+           960                                                                                                                                                                                          
+          1920                                                                                                                                                                                          
+          1500                                                                                                                                                                                          
+          3570                                                                                                                                                                                          
+          1500                                                                                                                                                                                          
+          3420                                                                                                                                                                                          
+          2940                                                                                                                                                                                          
+          3600                                                                                                                                                                                          
+          6000                                                                                                                                                                                          
+          1800                                                                                                                                                                                          
+          1320                                                                                                                                                                                          
+          1140                                                                                                                                                                                          
+          3600                                                                                                                                                                                          
+          1560                                                                                                                                                                                          
+
+14 rows selected.
+
+SQL> SELECT SAL*12-30/100
+  2  FROM EMO;
+FROM EMO
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT SAL *12-SAL*30/100
+  2  FROM EMP;
+
+SAL*12-SAL*30/100                                                                                                                                                                                       
+-----------------                                                                                                                                                                                       
+             9360                                                                                                                                                                                       
+            18720                                                                                                                                                                                       
+            14625                                                                                                                                                                                       
+          34807.5                                                                                                                                                                                       
+            14625                                                                                                                                                                                       
+            33345                                                                                                                                                                                       
+            28665                                                                                                                                                                                       
+            35100                                                                                                                                                                                       
+            58500                                                                                                                                                                                       
+            17550                                                                                                                                                                                       
+            12870                                                                                                                                                                                       
+            11115                                                                                                                                                                                       
+            35100                                                                                                                                                                                       
+            15210                                                                                                                                                                                       
+
+14 rows selected.
+
+SQL> SELECT SAL-SAL*30/100 *12
+  2  FROM EMP;
+
+SAL-SAL*30/100*12                                                                                                                                                                                       
+-----------------                                                                                                                                                                                       
+            -2080                                                                                                                                                                                       
+            -4160                                                                                                                                                                                       
+            -3250                                                                                                                                                                                       
+            -7735                                                                                                                                                                                       
+            -3250                                                                                                                                                                                       
+            -7410                                                                                                                                                                                       
+            -6370                                                                                                                                                                                       
+            -7800                                                                                                                                                                                       
+           -13000                                                                                                                                                                                       
+            -3900                                                                                                                                                                                       
+            -2860                                                                                                                                                                                       
+            -2470                                                                                                                                                                                       
+            -7800                                                                                                                                                                                       
+            -3380                                                                                                                                                                                       
+
+14 rows selected.
+
+SQL> SELECT SAL*12-SAL*12-SAL*30/100
+  2  FROM EMP;
+
+SAL*12-SAL*12-SAL*30/100                                                                                                                                                                                
+------------------------                                                                                                                                                                                
+                    -240                                                                                                                                                                                
+                    -480                                                                                                                                                                                
+                    -375                                                                                                                                                                                
+                  -892.5                                                                                                                                                                                
+                    -375                                                                                                                                                                                
+                    -855                                                                                                                                                                                
+                    -735                                                                                                                                                                                
+                    -900                                                                                                                                                                                
+                   -1500                                                                                                                                                                                
+                    -450                                                                                                                                                                                
+                    -330                                                                                                                                                                                
+                    -285                                                                                                                                                                                
+                    -900                                                                                                                                                                                
+                    -390                                                                                                                                                                                
+
+14 rows selected.
+
+SQL> SELECT SUM(SAL)
+  2  FROM EMP;
+
+  SUM(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+     29025                                                                                                                                                                                              
+
+SQL> SELECT SAL+ COMM
+  2  FROM EMP;
+
+  SAL+COMM                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+      1900                                                                                                                                                                                              
+      1750                                                                                                                                                                                              
+                                                                                                                                                                                                        
+      2650                                                                                                                                                                                              
+                                                                                                                                                                                                        
+                                                                                                                                                                                                        
+                                                                                                                                                                                                        
+                                                                                                                                                                                                        
+      1500                                                                                                                                                                                              
+                                                                                                                                                                                                        
+                                                                                                                                                                                                        
+                                                                                                                                                                                                        
+                                                                                                                                                                                                        
+
+14 rows selected.
+
+SQL> SPOOL OFF

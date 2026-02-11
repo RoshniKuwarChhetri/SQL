@@ -1,0 +1,232 @@
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT EMPNO
+  4               FROM EMP);
+WHERE EMPNO=(SELECT EMPNO
+             *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4               FROM EMP)
+  5*              WHERE ENAME='SMITH')
+SQL> /
+             WHERE ENAME='SMITH')
+             *
+ERROR at line 5:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4               FROM EMP
+  5*              WHERE ENAME='SMITH')
+SQL> 
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+FORD                                                                                                                                                                                                    
+
+SQL> SELECT
+  2   ENAME
+  3  FROM EMP
+  4  WHERE EMPNO=(SELECT MGR
+  5               FROM EMP
+  6               WHERE EMPNO=(SELECT MGR
+  7                            FROM EMP
+  8                            WHERE ENAME='ADAMS'));
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+JONES                                                                                                                                                                                                   
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO=(SELECT MGR
+  6                             FROM EMP
+  7                             WHERE ENAME='JONES'));
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+ACCOUNTING                                                                                                                                                                                              
+
+SQL> SELECT SAL
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4               FROM EMP
+  5               WHERE ENAME='MILLER');
+
+       SAL                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2450                                                                                                                                                                                              
+
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO=(SELECT MGR
+  6                             FROM EMP
+  7                             WHERE EMPNO=(SELECT MGR
+  8                                          FROM EMP
+  9                                          WHERE ENAME='SMITH')));
+
+LOC                                                                                                                                                                                                     
+-------------                                                                                                                                                                                           
+DALLAS                                                                                                                                                                                                  
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE ENAME='BLAKE');
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+MARTIN                                                                                                                                                                                                  
+TURNER                                                                                                                                                                                                  
+JAMES                                                                                                                                                                                                   
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE ENAME='KING');
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+JONES                                                                                                                                                                                                   
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+
+SQL> SELECT*
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMP
+  4             FROM EMP
+  5              WHERE ENAME='JONES');
+WHERE MGR=(SELECT EMP
+                  *
+ERROR at line 3:
+ORA-00904: "EMP": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT*
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5*            WHERE ENAME='JONES')
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4               FROM EMP
+  5               WHERE EMPNO=(SELECT MGR
+  6                            FROM EMP
+  7                            WHERE ENAME='BLAKE'));
+
+no rows selected
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE
+  4  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE MGR=(SELECT EMPNO
+  6                        FROM EMP
+  7*                       WHERE ENAME='BLAKE'
+SQL> /
+WHERE MGR=(SELECT EMPNO
+           *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE MGR=(SELECT EMPNO
+  6                        FROM EMP
+  7*                       WHERE ENAME='BLAKE'))
+SQL> /
+WHERE MGR=(SELECT EMPNO
+           *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR IN(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE MGR=(SELECT EMPNO
+  6                        FROM EMP
+  7*                       WHERE ENAME='BLAKE'))
+SQL> /
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR =(SELECT EMPNO
+  4                        FROM EMP
+  5*                       WHERE ENAME='BLAKE')
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+MARTIN                                                                                                                                                                                                  
+TURNER                                                                                                                                                                                                  
+JAMES                                                                                                                                                                                                   
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE ENAME='FORD');
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SPOOL OFF

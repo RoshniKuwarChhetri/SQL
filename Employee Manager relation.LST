@@ -1,0 +1,421 @@
+SQL> SELECT E.ENAME,M.ENAME
+  2  FROM EMP.E,EMP.M
+  3  WHERE E.MGR=M.EMPNO;
+FROM EMP.E,EMP.M
+               *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME,M.ENAME
+  2  FROM EMP E,EMPM
+  3* WHERE E.MGR=M.EMPNO
+SQL> /
+FROM EMP E,EMPM
+           *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME,M.ENAME
+  2  FROM EMP E,EMP M
+  3* WHERE E.MGR=M.EMPNO
+SQL> /
+
+ENAME      ENAME                                                                                                                                                                                        
+---------- ----------                                                                                                                                                                                   
+SMITH      FORD                                                                                                                                                                                         
+ALLEN      BLAKE                                                                                                                                                                                        
+WARD       BLAKE                                                                                                                                                                                        
+JONES      KING                                                                                                                                                                                         
+MARTIN     BLAKE                                                                                                                                                                                        
+BLAKE      KING                                                                                                                                                                                         
+CLARK      KING                                                                                                                                                                                         
+SCOTT      JONES                                                                                                                                                                                        
+TURNER     BLAKE                                                                                                                                                                                        
+ADAMS      SCOTT                                                                                                                                                                                        
+JAMES      BLAKE                                                                                                                                                                                        
+FORD       JONES                                                                                                                                                                                        
+MILLER     CLARK                                                                                                                                                                                        
+
+13 rows selected.
+
+SQL> SELECT E.EAME.M ENAME
+  2  FROM EMP E,EMP M
+  3  WHERE E.MGR=M.EMPNO AND E.ENAME ='ALLEN';
+SELECT E.EAME.M ENAME
+       *
+ERROR at line 1:
+ORA-00904: "E"."EAME"."M": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.EAME,M. ENAME
+  2  FROM EMP E,EMP M
+  3* WHERE E.MGR=M.EMPNO AND E.ENAME ='ALLEN'
+SQL> /
+SELECT E.EAME,M. ENAME
+       *
+ERROR at line 1:
+ORA-00904: "E"."EAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.EAME, M.ENAME
+  2  FROM EMP E,EMP M
+  3* WHERE E.MGR=M.EMPNO AND E.ENAME ='ALLEN'
+SQL> /
+SELECT E.EAME, M.ENAME
+       *
+ERROR at line 1:
+ORA-00904: "E"."EAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.NAME, M.ENAME
+  2  FROM EMP E,EMP M
+  3* WHERE E.MGR=M.EMPNO AND E.ENAME ='ALLEN'
+SQL> /
+SELECT E.NAME, M.ENAME
+       *
+ERROR at line 1:
+ORA-00904: "E"."NAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.ENAME
+  2  FROM EMP E,EMP M
+  3* WHERE E.MGR=M.EMPNO AND E.ENAME ='ALLEN'
+SQL> /
+
+ENAME      ENAME                                                                                                                                                                                        
+---------- ----------                                                                                                                                                                                   
+ALLEN      BLAKE                                                                                                                                                                                        
+
+SQL> SELECT E.ENAME, M.NAME, M.M.ENAME
+  2  FROM EMP E, EMP M
+  3  WHERE E.MGR=M.EMPNO =M.M.EMPNO;
+WHERE E.MGR=M.EMPNO =M.M.EMPNO
+                    *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.NAME, M.M.ENAME
+  2  FROM EMP E, EMP M
+  3* WHERE E.MGR IN (M.EMPNO ,M.M.EMPNO)
+SQL> /
+WHERE E.MGR IN (M.EMPNO ,M.M.EMPNO)
+                         *
+ERROR at line 3:
+ORA-00904: "M"."M"."EMPNO": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.NAME, MM.ENAME
+  2  FROM EMP E, EMP M, EMP MM
+  3* WHERE E.MGR = EMPNO AND M.EMPNO=MM.MGR;
+SQL> /
+WHERE E.MGR = EMPNO AND M.EMPNO=MM.MGR;
+                                      *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.NAME, MM.ENAME
+  2  FROM EMP E, EMP M, EMP MM
+  3* WHERE E.MGR = M.EMPNO AND M.EMPNO=MM.MGR;
+SQL> /
+WHERE E.MGR = M.EMPNO AND M.EMPNO=MM.MGR;
+                                        *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.NAME, MM.ENAME
+  2  FROM EMP E, EMP M, EMP MM
+  3* WHERE E.MGR=M.EMPNO AND M.EMPNO=MM.MGR;
+SQL> /
+WHERE E.MGR=M.EMPNO AND M.EMPNO=MM.MGR;
+                                      *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.NAME, MM.ENAME
+  2  FROM EMP E, EMP M, EMP MM
+  3* WHERE E.MGR=M.EMPNO AND M.EMPNO=MM.MGR
+SQL> /
+SELECT E.ENAME, M.NAME, MM.ENAME
+                *
+ERROR at line 1:
+ORA-00904: "M"."NAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.ENAME, MM.ENAME
+  2  FROM EMP E, EMP M, EMP MM
+  3* WHERE E.MGR=M.EMPNO AND M.EMPNO=MM.MGR
+SQL> /
+
+ENAME      ENAME      ENAME                                                                                                                                                                             
+---------- ---------- ----------                                                                                                                                                                        
+SMITH      FORD       SMITH                                                                                                                                                                             
+JAMES      BLAKE      ALLEN                                                                                                                                                                             
+TURNER     BLAKE      ALLEN                                                                                                                                                                             
+MARTIN     BLAKE      ALLEN                                                                                                                                                                             
+WARD       BLAKE      ALLEN                                                                                                                                                                             
+ALLEN      BLAKE      ALLEN                                                                                                                                                                             
+JAMES      BLAKE      WARD                                                                                                                                                                              
+TURNER     BLAKE      WARD                                                                                                                                                                              
+MARTIN     BLAKE      WARD                                                                                                                                                                              
+WARD       BLAKE      WARD                                                                                                                                                                              
+ALLEN      BLAKE      WARD                                                                                                                                                                              
+CLARK      KING       JONES                                                                                                                                                                             
+BLAKE      KING       JONES                                                                                                                                                                             
+JONES      KING       JONES                                                                                                                                                                             
+JAMES      BLAKE      MARTIN                                                                                                                                                                            
+TURNER     BLAKE      MARTIN                                                                                                                                                                            
+MARTIN     BLAKE      MARTIN                                                                                                                                                                            
+WARD       BLAKE      MARTIN                                                                                                                                                                            
+ALLEN      BLAKE      MARTIN                                                                                                                                                                            
+CLARK      KING       BLAKE                                                                                                                                                                             
+BLAKE      KING       BLAKE                                                                                                                                                                             
+JONES      KING       BLAKE                                                                                                                                                                             
+CLARK      KING       CLARK                                                                                                                                                                             
+BLAKE      KING       CLARK                                                                                                                                                                             
+JONES      KING       CLARK                                                                                                                                                                             
+FORD       JONES      SCOTT                                                                                                                                                                             
+SCOTT      JONES      SCOTT                                                                                                                                                                             
+JAMES      BLAKE      TURNER                                                                                                                                                                            
+TURNER     BLAKE      TURNER                                                                                                                                                                            
+MARTIN     BLAKE      TURNER                                                                                                                                                                            
+WARD       BLAKE      TURNER                                                                                                                                                                            
+ALLEN      BLAKE      TURNER                                                                                                                                                                            
+ADAMS      SCOTT      ADAMS                                                                                                                                                                             
+JAMES      BLAKE      JAMES                                                                                                                                                                             
+TURNER     BLAKE      JAMES                                                                                                                                                                             
+MARTIN     BLAKE      JAMES                                                                                                                                                                             
+WARD       BLAKE      JAMES                                                                                                                                                                             
+ALLEN      BLAKE      JAMES                                                                                                                                                                             
+FORD       JONES      FORD                                                                                                                                                                              
+SCOTT      JONES      FORD                                                                                                                                                                              
+MILLER     CLARK      MILLER                                                                                                                                                                            
+
+41 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.ENAME, MM.ENAME
+  2  FROM EMP E, EMP M, EMP MM
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO
+SQL> /
+
+ENAME      ENAME      ENAME                                                                                                                                                                             
+---------- ---------- ----------                                                                                                                                                                        
+SMITH      FORD       JONES                                                                                                                                                                             
+ALLEN      BLAKE      KING                                                                                                                                                                              
+WARD       BLAKE      KING                                                                                                                                                                              
+MARTIN     BLAKE      KING                                                                                                                                                                              
+SCOTT      JONES      KING                                                                                                                                                                              
+TURNER     BLAKE      KING                                                                                                                                                                              
+ADAMS      SCOTT      JONES                                                                                                                                                                             
+JAMES      BLAKE      KING                                                                                                                                                                              
+FORD       JONES      KING                                                                                                                                                                              
+MILLER     CLARK      KING                                                                                                                                                                              
+
+10 rows selected.
+
+SQL> SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+  2  FRPM EMP E EMP M EMP MM,DEPT
+  3  WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME="SCOTT";
+FRPM EMP E EMP M EMP MM,DEPT
+     *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+  2  FROM EMP E EMP M EMP MM,DEPT
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME="SCOTT"
+SQL> /
+FROM EMP E EMP M EMP MM,DEPT
+           *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+  2  FROM EMP E EMP M EMP MM,DEPT
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME=SCOTT
+SQL> /
+FROM EMP E EMP M EMP MM,DEPT
+           *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+  2  FROM EMP E EMP, M EMP MM,DEPT
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME=SCOTT
+SQL> /
+FROM EMP E EMP, M EMP MM,DEPT
+           *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+  2  FROM EMP E ,EMP M ,EMP MM,DEPT
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME=SCOTT
+SQL> /
+WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME=SCOTT
+                                                   *
+ERROR at line 3:
+ORA-00904: "SCOTT": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+  2  FROM EMP E ,EMP M ,EMP MM,DEPT
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME='SCOTT'
+SQL> /
+SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+                           *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME ,M.ENMAE,MM,ENAME,DNAME,LOC
+  2  FROM EMP E ,EMP M ,EMP MM,DEPT
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME='SCOTT'
+SQL> 
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME ,M.ENAME,MM.ENAME,DNAME,LOC
+  2  FROM EMP E ,EMP M ,EMP MM,DEPT
+  3* WHERE E.MGR=M.EMPNO AND M.MGR=MM.EMPNO AND E.ENAME='SCOTT'
+SQL> /
+
+ENAME      ENAME      ENAME      DNAME          LOC                                                                                                                                                     
+---------- ---------- ---------- -------------- -------------                                                                                                                                           
+SCOTT      JONES      KING       ACCOUNTING     NEW YORK                                                                                                                                                
+SCOTT      JONES      KING       RESEARCH       DALLAS                                                                                                                                                  
+SCOTT      JONES      KING       SALES          CHICAGO                                                                                                                                                 
+SCOTT      JONES      KING       OPERATIONS     BOSTON                                                                                                                                                  
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT S.ENAME,SM.ENAME,D1.DNAME,D1.LOC
+  2  FROM  EMP.S,EMP SM, EMP SMM,DEPT D1
+  3* WHERE S.MGR=SM.EMPNO AND S1.MGR=SMM.EMPNO AND S.ENAME='SCOTT' AND D1.DEPTNO=S.DEPTNO
+SQL> /
+FROM  EMP.S,EMP SM, EMP SMM,DEPT D1
+          *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT S.ENAME,SM.ENAME,D1.DNAME,D1.LOC
+  2  FROM  EMP S,EMP SM, EMP SMM,DEPT D1
+  3* WHERE S.MGR=SM.EMPNO AND S1.MGR=SMM.EMPNO AND S.ENAME='SCOTT' AND D1.DEPTNO=S.DEPTNO
+SQL> /
+WHERE S.MGR=SM.EMPNO AND S1.MGR=SMM.EMPNO AND S.ENAME='SCOTT' AND D1.DEPTNO=S.DEPTNO
+                         *
+ERROR at line 3:
+ORA-00904: "S1"."MGR": invalid identifier 
+
+
+SQL> SELECT E.NAME, M.ENAME
+  2  FROM EMP E,EMPM
+  3  
+SQL> 
+SQL> SELECT E.ENAME, M.ENAME
+  2  FROM EMP E, EMP M
+  3  WHERE E.MGR=M.EMPNO AND E.LOC=M.LOC;
+WHERE E.MGR=M.EMPNO AND E.LOC=M.LOC
+                              *
+ERROR at line 3:
+ORA-00904: "M"."LOC": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.ENAME, 
+  2  FROM EMP E, EMP M, EMP MM,DEPT D1
+  3* WHERE E.MGR=M.EMPNO AND E.DEPTNO=d.DEPTNO AND M.DEPTNO=D1.DEPTNO AND D.LOC=D1.LOC
+SQL> /
+FROM EMP E, EMP M, EMP MM,DEPT D1
+*
+ERROR at line 2:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME, M.ENAME 
+  2  FROM EMP E, EMP M, EMP MM,DEPT D1
+  3* WHERE E.MGR=M.EMPNO AND E.DEPTNO=d.DEPTNO AND M.DEPTNO=D1.DEPTNO AND D.LOC=D1.LOC
+SQL> /
+WHERE E.MGR=M.EMPNO AND E.DEPTNO=d.DEPTNO AND M.DEPTNO=D1.DEPTNO AND D.LOC=D1.LOC
+                                                                     *
+ERROR at line 3:
+ORA-00904: "D"."LOC": invalid identifier 
+
+
+SQL> SPOOL OFF

@@ -1,0 +1,618 @@
+SQL> SELECT SUBSTR(ENAME, LENGTH/2)
+  2  FTOM EMP;
+FTOM EMP
+     *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME, LENGTH/2)
+  2* FROM EMP
+SQL> /
+SELECT SUBSTR(ENAME, LENGTH/2)
+                     *
+ERROR at line 1:
+ORA-00904: "LENGTH": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME,1, LENGTH/2)
+  2* FROM EMP
+SQL> /
+SELECT SUBSTR(ENAME,1, LENGTH/2)
+                       *
+ERROR at line 1:
+ORA-00904: "LENGTH": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME,1, LENGTH(ENAME)/2)
+  2* FROM EMP
+SQL> /
+
+SUBSTR(ENA                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+SM                                                                                                                                                                                                      
+AL                                                                                                                                                                                                      
+WA                                                                                                                                                                                                      
+JO                                                                                                                                                                                                      
+MAR                                                                                                                                                                                                     
+BL                                                                                                                                                                                                      
+CL                                                                                                                                                                                                      
+SC                                                                                                                                                                                                      
+KI                                                                                                                                                                                                      
+TUR                                                                                                                                                                                                     
+AD                                                                                                                                                                                                      
+JA                                                                                                                                                                                                      
+FO                                                                                                                                                                                                      
+MIL                                                                                                                                                                                                     
+
+14 rows selected.
+
+SQL> SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2,LENGTH(ENAME)/2))
+  2  FROM EMP;
+SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2,LENGTH(ENAME)/2))
+                                                     *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2,LENGTH(ENAME)/2)
+  2* FROM EMP
+SQL> /
+
+SUBSTR(ENA                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+MI                                                                                                                                                                                                      
+LL                                                                                                                                                                                                      
+AR                                                                                                                                                                                                      
+ON                                                                                                                                                                                                      
+RTI                                                                                                                                                                                                     
+LA                                                                                                                                                                                                      
+LA                                                                                                                                                                                                      
+CO                                                                                                                                                                                                      
+IN                                                                                                                                                                                                      
+RNE                                                                                                                                                                                                     
+DA                                                                                                                                                                                                      
+AM                                                                                                                                                                                                      
+OR                                                                                                                                                                                                      
+LLE                                                                                                                                                                                                     
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2,LENGTH(ENAME))
+  2* FROM EMP
+SQL> /
+
+SUBSTR(ENA                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+MITH                                                                                                                                                                                                    
+LLEN                                                                                                                                                                                                    
+ARD                                                                                                                                                                                                     
+ONES                                                                                                                                                                                                    
+RTIN                                                                                                                                                                                                    
+LAKE                                                                                                                                                                                                    
+LARK                                                                                                                                                                                                    
+COTT                                                                                                                                                                                                    
+ING                                                                                                                                                                                                     
+RNER                                                                                                                                                                                                    
+DAMS                                                                                                                                                                                                    
+AMES                                                                                                                                                                                                    
+ORD                                                                                                                                                                                                     
+LLER                                                                                                                                                                                                    
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2,)
+  2* FROM EMP
+SQL> /
+SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2,)
+                                     *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2)
+  2* FROM EMP
+SQL> /
+
+SUBSTR(ENA                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+MITH                                                                                                                                                                                                    
+LLEN                                                                                                                                                                                                    
+ARD                                                                                                                                                                                                     
+ONES                                                                                                                                                                                                    
+RTIN                                                                                                                                                                                                    
+LAKE                                                                                                                                                                                                    
+LARK                                                                                                                                                                                                    
+COTT                                                                                                                                                                                                    
+ING                                                                                                                                                                                                     
+RNER                                                                                                                                                                                                    
+DAMS                                                                                                                                                                                                    
+AMES                                                                                                                                                                                                    
+ORD                                                                                                                                                                                                     
+LLER                                                                                                                                                                                                    
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUBSTR(ENAME ,LENGTH(ENAME)/2+1)
+  2* FROM EMP
+SQL> /
+
+SUBSTR(ENA                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+ITH                                                                                                                                                                                                     
+LEN                                                                                                                                                                                                     
+RD                                                                                                                                                                                                      
+NES                                                                                                                                                                                                     
+TIN                                                                                                                                                                                                     
+AKE                                                                                                                                                                                                     
+ARK                                                                                                                                                                                                     
+OTT                                                                                                                                                                                                     
+NG                                                                                                                                                                                                      
+NER                                                                                                                                                                                                     
+AMS                                                                                                                                                                                                     
+MES                                                                                                                                                                                                     
+RD                                                                                                                                                                                                      
+LER                                                                                                                                                                                                     
+
+14 rows selected.
+
+SQL> 
+SQL> SELECT INSTR('HARSAL','R',1,1)
+  2  FROM DUEL;
+FROM DUEL
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT INSTR('HARSAL','R',1,1)
+  2* FROM DUAL
+SQL> /
+
+INSTR('HARSAL','R',1,1)                                                                                                                                                                                 
+-----------------------                                                                                                                                                                                 
+                      3                                                                                                                                                                                 
+
+SQL> 
+SQL> SELECT INSTR('ENAME',A,1)
+  2  FROM EMP;
+SELECT INSTR('ENAME',A,1)
+                     *
+ERROR at line 1:
+ORA-00904: "A": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT INSTR('ENAME','A',1)
+  2* FROM EMP
+SQL> /
+
+INSTR('ENAME','A',1)                                                                                                                                                                                    
+--------------------                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+
+14 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  
+SQL> 
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE ENAME=(ENAME,'A',1);
+WHERE ENAME=(ENAME,'A',1)
+           *
+ERROR at line 3:
+ORA-01797: this operator must be followed by ANY or ALL 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE ENAME IN(ENAME,'A',1)
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+SMITH                                                                                                                                                                                                   
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                   
+KING                                                                                                                                                                                                    
+TURNER                                                                                                                                                                                                  
+ADAMS                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                  
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE (ENAME,'A',1)= ENAME 
+SQL> /
+WHERE (ENAME,'A',1)= ENAME 
+                     *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE (ENAME,'A')
+SQL> /
+WHERE (ENAME,'A')
+                *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE INSTR(ENAME,'A')
+SQL> 
+SQL> /
+WHERE INSTR(ENAME,'A')
+                     *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE ENAME=INSTR(ENAME,'A')
+SQL> /
+WHERE ENAME=INSTR(ENAME,'A')
+      *
+ERROR at line 3:
+ORA-01722: invalid number 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE ENAME=INSTR(ENAME,'A',1)
+SQL> 
+SQL> /
+WHERE ENAME=INSTR(ENAME,'A',1)
+      *
+ERROR at line 3:
+ORA-01722: invalid number 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE IN INSTR(ENAME,'A',1,1)>0
+SQL> /
+WHERE IN INSTR(ENAME,'A',1,1)>0
+      *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE INSTR(ENAME,'A',1,1)>0
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+MARTIN                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+ADAMS                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                   
+
+7 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  FROM INSTR(ENAME,'A',1,2)>0
+  4  ;
+FROM INSTR(ENAME,'A',1,2)>0
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> EE
+SP2-0042: unknown command "EE" - rest of line ignored.
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE INSTR(ENAME,'A',1,2)>0
+  4  /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ADAMS                                                                                                                                                                                                   
+
+SQL> SELECT('QSPIDERS','Q','P')
+  2  FROM DUAL;
+SELECT('QSPIDERS','Q','P')
+                 *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ('QSPIDERS','Q','P')
+  2* FROM DUAL
+SQL> /
+SELECT ('QSPIDERS','Q','P')
+                  *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT REPLACE('QSPIDERS','Q','P')
+  2* FROM DUAL
+SQL> /
+
+REPLACE(                                                                                                                                                                                                
+--------                                                                                                                                                                                                
+PSPIDERS                                                                                                                                                                                                
+
+SQL> SELECT INSTR(ENAME,'A',1,1)
+  2  FROM EMP;
+
+INSTR(ENAME,'A',1,1)                                                                                                                                                                                    
+--------------------                                                                                                                                                                                    
+                   0                                                                                                                                                                                    
+                   1                                                                                                                                                                                    
+                   2                                                                                                                                                                                    
+                   0                                                                                                                                                                                    
+                   2                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   3                                                                                                                                                                                    
+                   0                                                                                                                                                                                    
+                   0                                                                                                                                                                                    
+                   0                                                                                                                                                                                    
+                   1                                                                                                                                                                                    
+                   2                                                                                                                                                                                    
+                   0                                                                                                                                                                                    
+                   0                                                                                                                                                                                    
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(INSTR(ENAME,'A',1,1))
+  2* FROM EMP
+SQL> /
+
+COUNT(INSTR(ENAME,'A',1,1))                                                                                                                                                                             
+---------------------------                                                                                                                                                                             
+                         14                                                                                                                                                                             
+
+SQL> SELECT COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE (INSTR(ENAME,'A',1,1))
+  4  ED
+  5  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE (INSTR(ENAME,'A'))>0
+  4* ED
+SQL> /
+ED
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE (INSTR(ENAME,'A'))>0
+  4* ED
+SQL> SELECT COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE (INSTR(ENAME,'A'))>0;
+
+COUNT(ENAME)                                                                                                                                                                                            
+------------                                                                                                                                                                                            
+           7                                                                                                                                                                                            
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,COUNT(ENAME)
+  2  FROM EMP
+  3* WHERE (INSTR(ENAME,'A'))>0
+SQL> /
+SELECT ENAME,COUNT(ENAME)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE (INSTR(ENAME,'A'))>0
+  4* GROUP BY ENAME
+SQL> /
+
+ENAME      COUNT(ENAME)                                                                                                                                                                                 
+---------- ------------                                                                                                                                                                                 
+ALLEN                 1                                                                                                                                                                                 
+CLARK                 1                                                                                                                                                                                 
+WARD                  1                                                                                                                                                                                 
+MARTIN                1                                                                                                                                                                                 
+ADAMS                 1                                                                                                                                                                                 
+BLAKE                 1                                                                                                                                                                                 
+JAMES                 1                                                                                                                                                                                 
+
+7 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE (INSTR(ENAME,'A',1,2))>0
+  4* GROUP BY ENAME
+SQL> /
+
+ENAME      COUNT(ENAME)                                                                                                                                                                                 
+---------- ------------                                                                                                                                                                                 
+ADAMS                 1                                                                                                                                                                                 
+
+SQL> SELECT ENAME
+  2  WHERE MOD(SAL,2)=0;
+WHERE MOD(SAL,2)=0
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3* WHERE MOD(SAL,2)=0
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+SMITH                                                                                                                                                                                                   
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+MARTIN                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                   
+KING                                                                                                                                                                                                    
+TURNER                                                                                                                                                                                                  
+ADAMS                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                  
+
+13 rows selected.
+
+SQL> 
+SQL>  SELECT ENAME
+  2   FROM EMP
+  3   WHERE MOD(SAL,2) NOT ;
+ WHERE MOD(SAL,2) NOT 
+                     *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME
+  2   FROM EMP
+  3*  WHERE MOD(SAL,2) NOT 0
+SQL> /
+ WHERE MOD(SAL,2) NOT 0
+                      *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME
+  2   FROM EMP
+  3*  WHERE MOD(SAL,2) NOT IN 0
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+JONES                                                                                                                                                                                                   
+
+SQL> 2222222222222222222222222222222QQQQQQQQQQQQQQQQ1111111111111111111111111111111111111111111111111111111111111111111`22222222222222222222222222222222222222222222222
+SP2-0734: unknown command beginning "2222222222..." - rest of line ignored.
+SQL> SPOOL OFF

@@ -1,0 +1,1311 @@
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO IS NULL);
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO NOT IN(SELECT DEPTNO
+  4*                     FROM EMP)
+  5  /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+OPERATIONS                                                                                                                                                                                              
+
+SQL> SELECT
+  2  ENAME
+  3  FROM EMP
+  4  WHERE JOB=(SELECT JOB
+  5             FROM EMP
+  6             WHERE ENAME='SCOTT);
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT
+  2  ENAME
+  3  FROM EMP
+  4  WHERE JOB=(SELECT JOB
+  5             FROM EMP
+  6*            WHERE ENAME='SCOTT')
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+SCOTT                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                    
+
+SQL> 
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO=(SELECT MGR
+  6                             FROM DEPT
+  7                             WHERE EMPNO=(SELECT MGR
+  8                                          FROM DEPT
+  9                                          WHERE ENAME='SCOTT')));
+                           WHERE EMPNO=(SELECT MGR
+                                        *
+ERROR at line 7:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO=(SELECT MGR
+  6                             FROM DEPT
+  7                             WHERE EMPNO IN(SELECT MGR
+  8                                          FROM DEPT
+  9*                                         WHERE ENAME='SCOTT')))
+SQL> /
+
+no rows selected
+
+SQL> SELECT JOB
+  2  FR
+  3  
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE JOB=(SELECT
+  4  
+SQL> 
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE JOB=(SELECT JOB
+  4             FROM EMP
+  5             WHERE ENAME='SCOTT'AND SAL>(SELECT SAL
+  6                                         FROM EMP
+  7                                         WHERE ENAME='SMITH');
+WHERE JOB=(SELECT JOB
+           *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE JOB=(SELECT JOB
+  4             FROM EMP
+  5             WHERE ENAME='SCOTT'AND SAL>(SELECT SAL
+  6                                         FROM EMP
+  7*                                        WHERE ENAME='SMITH'))
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+SCOTT                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                    
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE JOB=(SELECT JOB
+  4             FROM EMP
+  5             WHERE ENAME IN ('SCOTT','ALLEN');
+WHERE JOB=(SELECT JOB
+           *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE JOB IN (SELECT JOB
+  4              FROM EMP
+  5*             WHERE ENAME IN ('SCOTT','ALLEN')
+SQL> /
+            WHERE ENAME IN ('SCOTT','ALLEN')
+                                           *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE JOB IN (SELECT JOB
+  4              FROM EMP
+  5*             WHERE ENAME IN ('SCOTT','ALLEN'))
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+TURNER                                                                                                                                                                                                  
+MARTIN                                                                                                                                                                                                  
+WARD                                                                                                                                                                                                    
+ALLEN                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                    
+SCOTT                                                                                                                                                                                                   
+
+6 rows selected.
+
+SQL> SELCT EMPNO
+SP2-0734: unknown command beginning "SELCT EMPN..." - rest of line ignored.
+SQL> SELECT EMPNO
+  2  FROM EMP
+  3  WHERE MGR IN(SELECT MGR
+  4               FROM EMP));
+             FROM EMP))
+                      *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT EMPNO
+  2  FROM EMP
+  3  WHERE MGR IN(SELECT MGR
+  4*              FROM EMP)
+SQL> /
+
+     EMPNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      7369                                                                                                                                                                                              
+      7900                                                                                                                                                                                              
+      7844                                                                                                                                                                                              
+      7654                                                                                                                                                                                              
+      7521                                                                                                                                                                                              
+      7499                                                                                                                                                                                              
+      7782                                                                                                                                                                                              
+      7698                                                                                                                                                                                              
+      7566                                                                                                                                                                                              
+      7902                                                                                                                                                                                              
+      7788                                                                                                                                                                                              
+      7876                                                                                                                                                                                              
+      7934                                                                                                                                                                                              
+
+13 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO IN(SELECT MGR
+  4*              FROM EMP)
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+JONES                                                                                                                                                                                                   
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                   
+KING                                                                                                                                                                                                    
+FORD                                                                                                                                                                                                    
+
+6 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE ENAME='SCOTT');
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ADAMS                                                                                                                                                                                                   
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT SAL
+  4             FROM EMP);
+WHERE SAL<(SELECT SAL
+           *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL <(SELECT MAX(SAL)
+  4*            FROM EMP)
+SQL> /
+
+  MAX(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      3000                                                                                                                                                                                              
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4             FROM EMP
+  5             WHERE MAX(SAL)<(SALECT MAX(SAL)
+  6                             FROM EMP));
+           WHERE MAX(SAL)<(SALECT MAX(SAL)
+                 *
+ERROR at line 5:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4             FROM EMP
+  5             WHERE SAL<(SALECT MAX(SAL)
+  6*                            FROM EMP))
+SQL> /
+           WHERE SAL<(SALECT MAX(SAL)
+                             *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4             FROM EMP
+  5             WHERE SAL<(SELECT MAX(SAL)
+  6*                            FROM EMP))
+SQL> /
+
+  MAX(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2975                                                                                                                                                                                              
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL<(SELECT SAL
+  4             FROM EMP
+  5             WHERE JOB='MANAGER');
+WHERE SAL<(SELECT SAL
+           *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL ALL(SELECT SAL
+  4             FROM EMP
+  5*            WHERE JOB='MANAGER')
+SQL> /
+WHERE SAL ALL(SELECT SAL
+          *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL ALL<(SELECT SAL
+  4             FROM EMP
+  5*            WHERE JOB='MANAGER')
+SQL> /
+WHERE SAL ALL<(SELECT SAL
+          *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL >ALL(SELECT SAL
+  4             FROM EMP
+  5*            WHERE JOB='MANAGER')
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+SCOTT                                                                                                                                                                                                   
+KING                                                                                                                                                                                                    
+FORD                                                                                                                                                                                                    
+
+SQL> SELECT EMPNO,JOB,SAL
+  2  FROM EMP
+  3  WHERE JOB='ANALYST' AND SAL <ANY(SELECT SAL
+  4                                   FROM EMP
+  5                                   WHERE JOB='MANAGER');
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT EMPNO,JOB,SAL
+  2  FROM EMP
+  3  WHERE JOB='ANALYST' AND SAL >ANY(SELECT SAL
+  4                                   FROM EMP
+  5*                                  WHERE JOB='MANAGER')
+SQL> /
+
+     EMPNO JOB              SAL                                                                                                                                                                         
+---------- --------- ----------                                                                                                                                                                         
+      7788 ANALYST         3000                                                                                                                                                                         
+      7902 ANALYST         3000                                                                                                                                                                         
+
+SQL> SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT MGR
+  4                FROM EMP
+  5                WHERE MGR=(SELECT EMPNO
+  6                           FROM EMP
+  7                           WHERE ENAME='CLERK')):
+  8  ED
+  9  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE MGR=(SELECT EMPNO
+  6                           FROM EMP
+  7                           WHERE ENAME='CLERK'));
+  8* ED
+SQL> /
+                         WHERE ENAME='CLERK'));
+                                              *
+ERROR at line 7:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE MGR=(SELECT EMPNO
+  6                           FROM EMP
+  7                           WHERE ENAME='CLERK'))
+  8* ED
+SQL> /
+ED
+*
+ERROR at line 8:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE MGR=(SELECT EMPNO
+  6                           FROM EMP
+  7*                          WHERE ENAME='CLERK'))
+  8  /
+
+no rows selected
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE ENAME='DALLAS');
+
+no rows selected
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE SAL>(SELECT AVG(SAL)
+  4             FROM EMP
+  5             WHERE DEPTNO=20);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+
+6 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE  WHERE DEPTNO=20 AND SAL>(SELECT AVG(SAL)
+  4*                                 FROM EMP)
+  5  /
+WHERE  WHERE DEPTNO=20 AND SAL>(SELECT AVG(SAL)
+       *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO=20 AND SAL>(SELECT AVG(SAL)
+  4*                          FROM EMP)
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL=(SELECT MAX(SALA0
+  4             FROM EMP);
+WHERE SAL=(SELECT MAX(SALA0
+           *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL=(SELECT MAX(SAL)
+  4*            FROM EMP)
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+KING                                                                                                                                                                                                    
+
+SQL> SELECT*
+  2  FROM EMP
+  3  ORDER BY HIREDATE ASC;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT*
+  2  FROM EMP
+  3  ORDER BY HIREDATE =(SELECT MIN(HIREDATE)
+  4*                     FROM EMP);
+SQL> /
+ORDER BY HIREDATE =(SELECT MIN(HIREDATE)
+                  *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MIN(HIREDATE)
+  2*         FROM EMP;
+SQL> /
+        FROM EMP;
+                *
+ERROR at line 2:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MIN(HIREDATE)
+  2*         FROM EMP;
+SQL> SELECT MIN(HIREDATE)
+  2  FROM EMP
+  3  ;
+
+MIN(HIRED                                                                                                                                                                                               
+---------                                                                                                                                                                                               
+17-DEC-80                                                                                                                                                                                               
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL >(SELECT
+  4              SAL
+  5              FROM EMP
+  6              WHERE ENAME='ALLEN');
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+JONES                                                                                                                                                                                                   
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                   
+KING                                                                                                                                                                                                    
+FORD                                                                                                                                                                                                    
+
+6 rows selected.
+
+SQL> SELECT DNAME
+  2  FROM EMP
+  3  
+SQL> 
+SQL> SELECT DNAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE JOB='ANALYST');
+SELECT DNAME
+       *
+ERROR at line 1:
+ORA-00904: "DNAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5*               WHERE JOB='ANALYST')
+SQL> /
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5*               WHERE JOB='ANALYST')
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+RESEARCH                                                                                                                                                                                                
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE JOB='SALESMAN');
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5*               WHERE JOB='SALESMAN')
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+SALES                                                                                                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM EMP
+  5                   WHERE LOC LIKE '%O%');
+                 WHERE LOC LIKE '%O%')
+                       *
+ERROR at line 5:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM DEPT
+  5*                  WHERE LOC LIKE '%O%')
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                   
+
+9 rows selected.
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE EMPNO IN (SELECT EMPNO
+  4                  FROM EMP);
+WHERE EMPNO IN (SELECT EMPNO
+      *
+ERROR at line 3:
+ORA-00904: "EMPNO": invalid identifier 
+
+
+SQL> RFED
+SP2-0042: unknown command "RFED" - rest of line ignored.
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE EMPNO IN (SELECT EMPNO
+  4*                  FROM EMP)
+SQL> /
+WHERE EMPNO IN (SELECT EMPNO
+      *
+ERROR at line 3:
+ORA-00904: "EMPNO": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4*                  FROM EMP)
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+ACCOUNTING                                                                                                                                                                                              
+RESEARCH                                                                                                                                                                                                
+SALES                                                                                                                                                                                                   
+
+SQL> SELECT*
+  2  FROM EMP
+  3  
+SQL> 
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT*
+  2* FROM EMP
+SQL> 
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM EMP
+  5                   GROUP BY DEPTNO
+  6                   HAVING COUNT(EMPNO)>=1);
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+SALES                                                                                                                                                                                                   
+RESEARCH                                                                                                                                                                                                
+ACCOUNTING                                                                                                                                                                                              
+
+SQL> SELECT DNAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY DEPTNO;
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM EMP
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY DEPTNO
+  6*               HAVING COUNT(*)>=4
+SQL> /
+              HAVING COUNT(*)>=4
+                               *
+ERROR at line 6:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM EMP
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY DEPTNO
+  6*               HAVING COUNT(*)>=4)
+SQL> /
+SELECT DNAME
+       *
+ERROR at line 1:
+ORA-00904: "DNAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY DEPTNO
+  6*               HAVING COUNT(*)>=4)
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+SALES                                                                                                                                                                                                   
+RESEARCH                                                                                                                                                                                                
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM EMP
+  5                   GROUP BY DEPTNO
+  6                   HAVIG COUNT(*)>=2;
+                 HAVIG COUNT(*)>=2
+                 *
+ERROR at line 6:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM EMP
+  5                   GROUP BY DEPTNO
+  6*                  HAVING COUNT(*)>=2)
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+SALES                                                                                                                                                                                                   
+RESEARCH                                                                                                                                                                                                
+ACCOUNTING                                                                                                                                                                                              
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE JOB='CLERK' AND DEPTNO IN (SELECT DEPTNO
+  4                                   FROM EMP
+  5                                   GROUP BY DEPTNO
+  6*                                  HAVING COUNT(*)>=2)
+SQL> /
+WHERE JOB='CLERK' AND DEPTNO IN (SELECT DEPTNO
+      *
+ERROR at line 3:
+ORA-00904: "JOB": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM EMP
+  5                   GROUP BY DEPTNO
+  6                   WHERE JOB='CLERK'
+  7*                  HAVING COUNT(*)>=2)
+SQL> /
+                 WHERE JOB='CLERK'
+                 *
+ERROR at line 6:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM EMP
+  5                   WHERE JOB='CLERK'
+  6                   GROUP BY DEPTNO                 
+  7*                  HAVING COUNT(*)>=2)
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+RESEARCH                                                                                                                                                                                                
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL=(SELECT MAX(SAL)
+  4             FROM EMP
+  5             WHERE DEPTNO=(SELECT DEPTNO
+  6                           FROM DEPT
+  7                           WHERE DNAME='ACCOUNTING'));
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+KING                                                                                                                                                                                                    
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT MAX(SAL)
+  4             FROM EMP
+  5             WHERE DEPTNO=(SELECT DEPTNO
+  6                           FROM DEPT
+  7*                          WHERE DNAME='ACCOUNTING'))
+SQL> /
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+KING                                                                                                                                                                                                    
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE COMM=(SELECT MAX(COMM)
+  6                            FROM EMP));
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+SALES                                                                                                                                                                                                   
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE ENAME='SCOTT');
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE DNAME IN('OPERATIONS','ACCOUNTING') AND SAL>(SELECT SAL
+  6                                                                   FROM EMP
+  7                                                                   WHERE ENAME = 'MILLER'));
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE DNAME IN('OPERATIONS','ACCOUNTING') AND SAL>(SELECT SAL
+  6                                                                   FROM EMP
+  7*                                                                  WHERE ENAME = 'MILLER'))
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY DEPTNO
+  6                HAVING COUNT(
+  7  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE JOB='SALESMAN'
+  6                GROUP BY DEPTNO
+  7*               HAVING COUNT(*)>=3
+SQL> /
+WHERE DEPTNO =(SELECT DEPTNO
+               *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE JOB='SALESMAN'
+  6                GROUP BY DEPTNO
+  7*               HAVING COUNT(*)>=3)
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+SALES                                                                                                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE MGR IS NULL;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+
+SQL> SELECT MGR
+  2  FROM EM
+  3  
+SQL> SELECT*
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE ENAME='JONES');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT EMPNO
+  4               FROM EMP
+  5               WHERE COUNT(MGR)>=2;
+WHERE EMPNO=(SELECT EMPNO
+             *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM DEPT
+  3  WHERE DNAME IN('RESEARCH','ACCOUNTING') AND EMPNO=(SELECT EMPNO
+  4                                                     FROM EMP
+  5*                                                    WHERE COUNT(MGR)>=2)
+SQL> /
+                                                   WHERE COUNT(MGR)>=2)
+                                                         *
+ERROR at line 5:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM DEPT
+  3  WHERE DNAME IN('RESEARCH','ACCOUNTING') AND EMPNO=(SELECT EMPNO
+  4                                                     FROM EMP
+  5                                                     GROUP BY EMPNO
+  6*                                                    HAVING COUNT(MGR)>=2)
+SQL> /
+WHERE DNAME IN('RESEARCH','ACCOUNTING') AND EMPNO=(SELECT EMPNO
+                                            *
+ERROR at line 3:
+ORA-00904: "EMPNO": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM DEPT
+  3  WHERE DNAME IN('RESEARCH','ACCOUNTING') AND DEPTNO=(SELECT DEPTNO
+  4                                                     FROM EMP
+  5                                                     GROUP BY EMPNO
+  6*                                                    HAVING COUNT(MGR)>=2)
+SQL> /
+WHERE DNAME IN('RESEARCH','ACCOUNTING') AND DEPTNO=(SELECT DEPTNO
+                                                           *
+ERROR at line 3:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM DEPT
+  3  WHERE DNAME IN('RESEARCH','ACCOUNTING') AND DEPTNO=(SELECT DEPTNO
+  4                                                     FROM EMP
+  5*                                                    HAVING COUNT(MGR)>=2)
+  6  /
+WHERE DNAME IN('RESEARCH','ACCOUNTING') AND DEPTNO=(SELECT DEPTNO
+                                                           *
+ERROR at line 3:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE ENAME NOT LIKE 'S%' AND SAL BETWEEN 1500 AND 3000);
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN(SELECT DEPTNO
+  4                FROM EMP
+  5*               WHERE ENAME NOT LIKE 'S%' AND SAL BETWEEN 1500 AND 3000)
+SQL> /
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+ACCOUNTING                                                                                                                                                                                              
+RESEARCH                                                                                                                                                                                                
+SALES                                                                                                                                                                                                   
+
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO= SELECT(DEPTNO
+  4                FROM EMP
+  5                WHERE SAL>2000 AND SAL=(SELECT MIN(SAL)
+  6                                        FROM EMP));
+WHERE DEPTNO= SELECT(DEPTNO
+              *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT(DEPTNO
+  4                   FROM EMP
+  5                   WHERE SAL>2000 AND SAL=(SELECT MIN(SAL)
+  6*                                          FROM EMP))
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                   FROM EMP
+  5                   WHERE SAL>2000 AND SAL=(SELECT MIN(SAL)
+  6*                                          FROM EMP))
+SQL> /
+
+no rows selected
+
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPT='ACCOUNTING';
+WHERE DEPT='ACCOUNTING'
+      *
+ERROR at line 3:
+ORA-00904: "DEPT": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3* WHERE DNAME='ACCOUNTING'
+SQL> /
+
+LOC                                                                                                                                                                                                     
+-------------                                                                                                                                                                                           
+NEW YORK                                                                                                                                                                                                
+
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY EMPNO
+  6                COUNT(*)>4):
+  7  ED
+  8  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY EMPNO
+  6*               COUNT(*)>4);
+  7  /
+              COUNT(*)>4);
+                         *
+ERROR at line 6:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY EMPNO
+  6*               COUNT(*)>4)
+SQL> /
+              COUNT(*)>4)
+              *
+ERROR at line 6:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                GROUP BY EMPNO
+  6*               HAVING COUNT(*)>4)
+SQL> /
+WHERE DEPTNO=(SELECT DEPTNO
+                     *
+ERROR at line 3:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB NOT IN(SELECT JOB
+  4                   FROM EMP
+  5                   WHERE ENAME='ALLEN') AND SAL>(SELECT SAL
+  6                                                 FROM EMP
+  7                                                 WHERE ENAME='MARTIN'));
+                                               WHERE ENAME='MARTIN'))
+                                                                    *
+ERROR at line 7:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE JOB NOT IN(SELECT JOB
+  4                   FROM EMP
+  5                   WHERE ENAME='ALLEN') AND SAL>(SELECT SAL
+  6                                                 FROM EMP
+  7*                                                WHERE ENAME='MARTIN'))
+SQL> /
+                                               WHERE ENAME='MARTIN'))
+                                                                    *
+ERROR at line 7:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE JOB NOT IN(SELECT JOB
+  4                   FROM EMP
+  5                   WHERE ENAME='ALLEN') AND SAL>(SELECT SAL
+  6                                                 FROM EMP
+  7*                                                WHERE ENAME='MARTIN')
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                   
+
+7 rows selected.
+
+SQL> SPOOL OFF

@@ -1,0 +1,2176 @@
+SQL> SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE JOB NOT IN 'CLERK'
+  4  GROUP BY DEPTNO
+  5  HAVING MAX(SAL)>1500;
+
+    DEPTNO   MAX(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        30       2850                                                                                                                                                                                   
+        20       3000                                                                                                                                                                                   
+        10       5000                                                                                                                                                                                   
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE JOB NOT IN 'CLERK'
+  4  GROUP BY DEPTNO
+  5  HAVING MAX(SAL)>1500
+  6* ORDER BY DEPTNO DESC
+SQL> /
+
+    DEPTNO   MAX(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        30       2850                                                                                                                                                                                   
+        20       3000                                                                                                                                                                                   
+        10       5000                                                                                                                                                                                   
+
+SQL> SELECTCOUNY(*)
+SP2-0734: unknown command beginning "SELECTCOUN..." - rest of line ignored.
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 30
+  4  GROUP BY DEPTNO
+  5  HAVING COUNT(*)>=3
+  6  ORDER BY DEPTNO DESC;
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         5                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+
+SQL> SELECT SAL
+  2  
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT SAL
+  4             FROM EMP
+  5             );
+WHERE SAL<(SELECT SAL
+           *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4*            FROM EMP)
+  5  /
+
+  MAX(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      3000                                                                                                                                                                                              
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE SAL*12>10000
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         6                                                                                                                                                                                              
+         4                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE COMM IS NULL;
+
+  MAX(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      5000                                                                                                                                                                                              
+
+SQL> SELECT SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(*)>2;
+
+  SUM(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      9400                                                                                                                                                                                              
+     10875                                                                                                                                                                                              
+      8750                                                                                                                                                                                              
+
+SQL> SELECT MIN(SAL),JOB,DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO IN (10,30)
+  4  GROUP BY JOB,DEPTNO
+  5  HAVING MIN(SAL)<3000;
+
+  MIN(SAL) JOB           DEPTNO                                                                                                                                                                         
+---------- --------- ----------                                                                                                                                                                         
+      1300 CLERK             10                                                                                                                                                                         
+      1250 SALESMAN          30                                                                                                                                                                         
+      2850 MANAGER           30                                                                                                                                                                         
+      2450 MANAGER           10                                                                                                                                                                         
+       950 CLERK             30                                                                                                                                                                         
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN(20,30);
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+CLARK                                                                                                                                                                                                   
+KING                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                  
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE COMM>200 AND ENAME LIKE '%A%';
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+
+SQL> SELECT SUM (SAL),DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL)>500;
+
+  SUM(SAL)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+      9400         30                                                                                                                                                                                   
+     10875         20                                                                                                                                                                                   
+      8750         10                                                                                                                                                                                   
+
+SQL> SELECT SAL,JOB
+  2  FROM EMP
+  3  WHERE SAL BETWEEN 2000 AND 5000 AND DEPT NOT IN 30;
+WHERE SAL BETWEEN 2000 AND 5000 AND DEPT NOT IN 30
+                                    *
+ERROR at line 3:
+ORA-00904: "DEPT": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SAL,JOB
+  2  FROM EMP
+  3* WHERE SAL BETWEEN 2000 AND 5000 AND DEPTNO NOT IN 30
+SQL> /
+
+       SAL JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+      2975 MANAGER                                                                                                                                                                                      
+      2450 MANAGER                                                                                                                                                                                      
+      3000 ANALYST                                                                                                                                                                                      
+      5000 PRESIDENT                                                                                                                                                                                    
+      3000 ANALYST                                                                                                                                                                                      
+
+SQL> SELECT ENAME,JOB
+  2  FROM EMP
+  3  WHERE ENAME LIKE '_____' AND JOB NOT IN ('SALESMAN','ANALYST')
+  4  GROUP BY JOB;
+SELECT ENAME,JOB
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT JOB,ENAME
+  2  FROM EMP
+  3  WHERE ENAME LIKE '_____' AND JOB NOT IN ('SALESMAN','ANALYST')
+  4* GROUP BY JOB
+SQL> /
+SELECT JOB,ENAME
+           *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT JOB,ENAME
+  2  FROM EMP
+  3* WHERE ENAME LIKE '_____' AND JOB NOT IN ('SALESMAN','ANALYST')
+  4  /
+
+JOB       ENAME                                                                                                                                                                                         
+--------- ----------                                                                                                                                                                                    
+CLERK     SMITH                                                                                                                                                                                         
+MANAGER   JONES                                                                                                                                                                                         
+MANAGER   BLAKE                                                                                                                                                                                         
+MANAGER   CLARK                                                                                                                                                                                         
+CLERK     ADAMS                                                                                                                                                                                         
+CLERK     JAMES                                                                                                                                                                                         
+
+6 rows selected.
+
+SQL> SELECT DEPTNO, COUNT(*),ENAME
+  2  FROM EMP;
+SELECT DEPTNO, COUNT(*),ENAME
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO, COUNT(*),ENAME
+  2  FROM EMP
+  3* GROUP BY DEPTNO
+SQL> /
+SELECT DEPTNO, COUNT(*),ENAME
+                        *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO, COUNT(*),ENAME
+  2  FROM EMP
+  3* GROUP BY DEPTNO,ENAME
+SQL> /
+
+    DEPTNO   COUNT(*) ENAME                                                                                                                                                                             
+---------- ---------- ----------                                                                                                                                                                        
+        20          1 JONES                                                                                                                                                                             
+        30          1 WARD                                                                                                                                                                              
+        20          1 SCOTT                                                                                                                                                                             
+        10          1 KING                                                                                                                                                                              
+        30          1 JAMES                                                                                                                                                                             
+        30          1 ALLEN                                                                                                                                                                             
+        30          1 MARTIN                                                                                                                                                                            
+        30          1 BLAKE                                                                                                                                                                             
+        20          1 FORD                                                                                                                                                                              
+        20          1 SMITH                                                                                                                                                                             
+        20          1 ADAMS                                                                                                                                                                             
+        10          1 MILLER                                                                                                                                                                            
+        10          1 CLARK                                                                                                                                                                             
+        30          1 TURNER                                                                                                                                                                            
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO, COUNT(*),ENAME
+  2  FROM EMP
+  3* GROUP BY DEPTNO,ENAME
+SQL> /
+
+    DEPTNO   COUNT(*) ENAME                                                                                                                                                                             
+---------- ---------- ----------                                                                                                                                                                        
+        20          1 JONES                                                                                                                                                                             
+        30          1 WARD                                                                                                                                                                              
+        20          1 SCOTT                                                                                                                                                                             
+        10          1 KING                                                                                                                                                                              
+        30          1 JAMES                                                                                                                                                                             
+        30          1 ALLEN                                                                                                                                                                             
+        30          1 MARTIN                                                                                                                                                                            
+        30          1 BLAKE                                                                                                                                                                             
+        20          1 FORD                                                                                                                                                                              
+        20          1 SMITH                                                                                                                                                                             
+        20          1 ADAMS                                                                                                                                                                             
+        10          1 MILLER                                                                                                                                                                            
+        10          1 CLARK                                                                                                                                                                             
+        30          1 TURNER                                                                                                                                                                            
+
+14 rows selected.
+
+SQL> SELCT MAX(SAL),MIN(SAL),DEPTNO
+SP2-0734: unknown command beginning "SELCT MAX(..." - rest of line ignored.
+SQL> SELECT MAX(SAL),MIN(SAL)
+  2  FROM EMP
+  3  ORDER BY DEPTNO ;
+
+  MAX(SAL)   MIN(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+      5000        800                                                                                                                                                                                   
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),MIN(SAL),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB ='SALESMAN'
+  4* ORDER BY DEPTNO 
+SQL> /
+SELECT MAX(SAL),MIN(SAL),DEPTNO
+                         *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),MIN(SAL),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB ='SALESMAN'
+  4  GROUP BY DEPTNO
+  5* ORDER BY DEPTNO 
+SQL> /
+
+  MAX(SAL)   MIN(SAL)     DEPTNO                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+      1600       1250         30                                                                                                                                                                        
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL AND IN DEPTNO 30;
+WHERE COMM IS NOT NULL AND IN DEPTNO 30
+                           *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3* WHERE COMM IS NOT NULL AND DEPTNO IN 30
+SQL> /
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         4                                                                                                                                                                                              
+
+SQL> SELECT COUNY(*),SUM(SAL),DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+SELECT COUNY(*),SUM(SAL),DEPTNO
+             *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*),SUM(SAL),DEPTNO
+  2  FROM EMP
+  3* GROUP BY DEPTNO
+SQL> /
+
+  COUNT(*)   SUM(SAL)     DEPTNO                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+         6       9400         30                                                                                                                                                                        
+         5      10875         20                                                                                                                                                                        
+         3       8750         10                                                                                                                                                                        
+
+SQL> SELECT COUNT(*),JOB
+  2  FROM EMP
+  3  WHERE SAL>2000
+  4  GROUP BY JOB;
+
+  COUNT(*) JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+         1 PRESIDENT                                                                                                                                                                                    
+         3 MANAGER                                                                                                                                                                                      
+         2 ANALYST                                                                                                                                                                                      
+
+SQL> SELECT MAX(SAL),MIN(SAL),AVG(SAL)
+  2  ,DEPTNO
+  3  FROM EMP
+  4  GROUP BY DEPTNO;
+
+  MAX(SAL)   MIN(SAL)   AVG(SAL)     DEPTNO                                                                                                                                                             
+---------- ---------- ---------- ----------                                                                                                                                                             
+      2850        950 1566.66667         30                                                                                                                                                             
+      3000        800       2175         20                                                                                                                                                             
+      5000       1300 2916.66667         10                                                                                                                                                             
+
+SQL> SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE SAL>2000 AND JOB='MANAGER'
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1         30                                                                                                                                                                                   
+         1         20                                                                                                                                                                                   
+         1         10                                                                                                                                                                                   
+
+SQL> SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4  GROUP BY DEPT;
+GROUP BY DEPT
+         *
+ERROR at line 4:
+ORA-00904: "DEPT": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4* GROUP BY DEPTNO
+SQL> /
+
+  COUNT(*)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1         30                                                                                                                                                                                   
+         1         20                                                                                                                                                                                   
+         1         10                                                                                                                                                                                   
+
+SQL> SELECT MIN(SAL),JOB
+  2  FROM EMP
+  3  WHERE ENAME LIKE 'S%'
+  4  GROUP BY JOB;
+
+  MIN(SAL) JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+       800 CLERK                                                                                                                                                                                        
+      3000 ANALYST                                                                                                                                                                                      
+
+SQL> SELECT DNAME,COUNT(*)
+  2  FROM DEPT;
+SELECT DNAME,COUNT(*)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,COUNT(*)
+  2  FROM DEPT
+  3* GROUP BY DNAME
+SQL> /
+
+DNAME            COUNT(*)                                                                                                                                                                               
+-------------- ----------                                                                                                                                                                               
+ACCOUNTING              1                                                                                                                                                                               
+OPERATIONS              1                                                                                                                                                                               
+RESEARCH                1                                                                                                                                                                               
+SALES                   1                                                                                                                                                                               
+
+SQL> SELECT JOB;MAX(HIREDATE)
+  2  
+SQL> SELECT JOB,MAX(HIREDATE)
+  2  FROM EMP
+  3  WHERE HIREDATE >'02-APR-81'
+  4  GROUP BY JOB;
+
+JOB       MAX(HIRED                                                                                                                                                                                     
+--------- ---------                                                                                                                                                                                     
+SALESMAN  28-SEP-81                                                                                                                                                                                     
+CLERK     23-MAY-87                                                                                                                                                                                     
+PRESIDENT 17-NOV-81                                                                                                                                                                                     
+MANAGER   09-JUN-81                                                                                                                                                                                     
+ANALYST   19-APR-87                                                                                                                                                                                     
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(*)<2;
+
+no rows selected
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='CLERK' AND SAL>1500;
+
+no rows selected
+
+SQL> SELECT DEPTNO,SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  ORDER BY SAL DESC;
+ORDER BY SAL DESC
+         *
+ERROR at line 4:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4* ORDER BY SUM(SAL) DESC
+SQL> /
+
+    DEPTNO   SUM(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        20      10875                                                                                                                                                                                   
+        30       9400                                                                                                                                                                                   
+        10       8750                                                                                                                                                                                   
+
+SQL> SELECT *
+  2  FROM TAB
+  3  ;
+
+TNAME                          TABTYPE  CLUSTERID                                                                                                                                                       
+------------------------------ ------- ----------                                                                                                                                                       
+DEPT                           TABLE                                                                                                                                                                    
+EMP                            TABLE                                                                                                                                                                    
+BONUS                          TABLE                                                                                                                                                                    
+SALGRADE                       TABLE                                                                                                                                                                    
+
+SQL> SELECT*
+  2  FROM SALGRADE
+  3  ;
+
+     GRADE      LOSAL      HISAL                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+         1        700       1200                                                                                                                                                                        
+         2       1201       1400                                                                                                                                                                        
+         3       1401       2000                                                                                                                                                                        
+         4       2001       3000                                                                                                                                                                        
+         5       3001       9999                                                                                                                                                                        
+
+SQL> SELECT JOB,AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL BETWEEN 1000 AND 2000
+  4  ;
+SELECT JOB,AVG(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT JOB,AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL BETWEEN 1000 AND 2000
+  4* GROUP BY JOB
+SQL> /
+
+JOB         AVG(SAL)                                                                                                                                                                                    
+--------- ----------                                                                                                                                                                                    
+SALESMAN        1400                                                                                                                                                                                    
+CLERK           1200                                                                                                                                                                                    
+
+SQL> SELECT DEPTNO, SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+    DEPTNO   SUM(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        30       9400                                                                                                                                                                                   
+        20      10875                                                                                                                                                                                   
+        10       8750                                                                                                                                                                                   
+
+SQL> SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB LIKE '%R%'
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         2         30                                                                                                                                                                                   
+         3         20                                                                                                                                                                                   
+         3         10                                                                                                                                                                                   
+
+SQL> SELECT HIREDATE,ENMAE
+  2  FROM EMP
+  3  WHERE JOB='CLERK' AND DEPTNO IN (20,30)AND SAL>1000;
+SELECT HIREDATE,ENMAE
+                *
+ERROR at line 1:
+ORA-00904: "ENMAE": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT HIREDATE,ENAME
+  2  FROM EMP
+  3* WHERE JOB='CLERK' AND DEPTNO IN (20,30)AND SAL>1000
+SQL> /
+
+HIREDATE  ENAME                                                                                                                                                                                         
+--------- ----------                                                                                                                                                                                    
+23-MAY-87 ADAMS                                                                                                                                                                                         
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT HIREDATE,ENAME
+  2  FROM EMP
+  3  WHERE JOB='CLERK' AND DEPTNO IN (20,30)AND SAL>1000
+  4* GROUP BY HIREDATE
+SQL> /
+SELECT HIREDATE,ENAME
+                *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT EMP.*,HIREDATE
+  2  FROM EMP
+  3  WHERE JOB='CLERK' AND DEPTNO IN (20,30)AND SAL>1000
+  4* ORDER BY HIREDATE
+SQL> /
+ORDER BY HIREDATE
+         *
+ERROR at line 4:
+ORA-00960: ambiguous column naming in select list 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT EMP.*,HIREDATE
+  2  FROM EMP
+  3  WHERE JOB='CLERK' AND DEPTNO IN (20,30)AND SAL>1000
+  4* ORDER BY HIREDATE DESC
+SQL> /
+ORDER BY HIREDATE DESC
+         *
+ERROR at line 4:
+ORA-00960: ambiguous column naming in select list 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE JOB='CLERK' AND DEPTNO IN (20,30)AND SAL>1000
+  4* ORDER BY HIREDATE DESC
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+
+SQL> SELECT DEPTNO,AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  ORDER BY SAL ASC;
+ORDER BY SAL ASC
+         *
+ERROR at line 4:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4* ORDER BY AVG(SAL) ASC
+SQL> /
+
+    DEPTNO   AVG(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        30 1566.66667                                                                                                                                                                                   
+        20       2175                                                                                                                                                                                   
+        10 2916.66667                                                                                                                                                                                   
+
+SQL> SELECT DEPTNO,ENAME
+  2  FROM EMP
+  3  WHERE SAL>=1500;
+
+    DEPTNO ENAME                                                                                                                                                                                        
+---------- ----------                                                                                                                                                                                   
+        30 ALLEN                                                                                                                                                                                        
+        20 JONES                                                                                                                                                                                        
+        30 BLAKE                                                                                                                                                                                        
+        10 CLARK                                                                                                                                                                                        
+        20 SCOTT                                                                                                                                                                                        
+        10 KING                                                                                                                                                                                         
+        30 TURNER                                                                                                                                                                                       
+        20 FORD                                                                                                                                                                                         
+
+8 rows selected.
+
+SQL> SELECT JOB
+  2  FROM EMP
+  3  WHERE DEPTNO=20 AND SAL>950;
+
+JOB                                                                                                                                                                                                     
+---------                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4  HAVING COUNT(*)>1;
+SELECT DEPTNO
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY MRG
+  4* HAVING COUNT(*)>1
+SQL> /
+GROUP BY MRG
+         *
+ERROR at line 3:
+ORA-00904: "MRG": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY MGR
+  4* HAVING COUNT(*)>1
+SQL> /
+SELECT DEPTNO
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MGR
+  2  FROM EMP
+  3  GROUP BY MGR
+  4* HAVING COUNT(*)>1
+SQL> /
+SELECT DEPTNO,MGR
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  WHERE COUNT(MGR)>1;
+WHERE COUNT(MGR)>1
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4* HAVING COUNT(MGR)>1
+SQL> /
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(DISTINCT MGR)>1;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+
+SQL> SELECT HIREDATE,DEPTNO,JOB
+  2  FROM EMP
+  3  ORDER BY HIREDATE;
+
+HIREDATE      DEPTNO JOB                                                                                                                                                                                
+--------- ---------- ---------                                                                                                                                                                          
+17-DEC-80         20 CLERK                                                                                                                                                                              
+20-FEB-81         30 SALESMAN                                                                                                                                                                           
+22-FEB-81         30 SALESMAN                                                                                                                                                                           
+02-APR-81         20 MANAGER                                                                                                                                                                            
+01-MAY-81         30 MANAGER                                                                                                                                                                            
+09-JUN-81         10 MANAGER                                                                                                                                                                            
+08-SEP-81         30 SALESMAN                                                                                                                                                                           
+28-SEP-81         30 SALESMAN                                                                                                                                                                           
+17-NOV-81         10 PRESIDENT                                                                                                                                                                          
+03-DEC-81         30 CLERK                                                                                                                                                                              
+03-DEC-81         20 ANALYST                                                                                                                                                                            
+23-JAN-82         10 CLERK                                                                                                                                                                              
+19-APR-87         20 ANALYST                                                                                                                                                                            
+23-MAY-87         20 CLERK                                                                                                                                                                              
+
+14 rows selected.
+
+SQL> SELECT SAL*12
+  2  FROM EMP
+  3  WHERE ENAME NOT LIKE 'S%';
+
+    SAL*12                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+     19200                                                                                                                                                                                              
+     15000                                                                                                                                                                                              
+     35700                                                                                                                                                                                              
+     15000                                                                                                                                                                                              
+     34200                                                                                                                                                                                              
+     29400                                                                                                                                                                                              
+     60000                                                                                                                                                                                              
+     18000                                                                                                                                                                                              
+     13200                                                                                                                                                                                              
+     11400                                                                                                                                                                                              
+     36000                                                                                                                                                                                              
+     15600                                                                                                                                                                                              
+
+12 rows selected.
+
+SQL> SELECT SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+  SUM(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      4150                                                                                                                                                                                              
+      5600                                                                                                                                                                                              
+      5000                                                                                                                                                                                              
+      8275                                                                                                                                                                                              
+      6000                                                                                                                                                                                              
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE JOB NOT IN ('ANALYST','PRESIDENT');
+
+  MAX(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2975                                                                                                                                                                                              
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),JOB
+  2  FROM EMP
+  3  WHERE JOB NOT IN ('ANALYST','PRESIDENT')
+  4* GROUP BY JOB
+SQL> /
+
+  MAX(SAL) JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+      1300 CLERK                                                                                                                                                                                        
+      1600 SALESMAN                                                                                                                                                                                     
+      2975 MANAGER                                                                                                                                                                                      
+
+SQL> SELECT DEPTNO,COUNT(*),SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+    DEPTNO   COUNT(*)   SUM(SAL)                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+        30          6       9400                                                                                                                                                                        
+        20          5      10875                                                                                                                                                                        
+        10          3       8750                                                                                                                                                                        
+
+SQL> SELECT SUM(SAL)
+  2  ,JOB
+  3  FROM EMP
+  4  WHERE HIREDATE LIKE '%81'
+  5  GROUP BY JOB;
+
+  SUM(SAL) JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+      5600 SALESMAN                                                                                                                                                                                     
+       950 CLERK                                                                                                                                                                                        
+      5000 PRESIDENT                                                                                                                                                                                    
+      8275 MANAGER                                                                                                                                                                                      
+      3000 ANALYST                                                                                                                                                                                      
+
+SQL> SELECT COUNT(*),JOB
+  2  FROM EMP
+  3  WHERE MGR IS NOT NULL
+  4  GROUP BY JOB;
+
+  COUNT(*) JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+         4 CLERK                                                                                                                                                                                        
+         4 SALESMAN                                                                                                                                                                                     
+         3 MANAGER                                                                                                                                                                                      
+         2 ANALYST                                                                                                                                                                                      
+
+SQL> SELECT HIREDATE,JOB
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL
+  4  GROUP BY JOB;
+SELECT HIREDATE,JOB
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT HIREDATE
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL
+  4* GROUP BY JOB
+SQL> /
+SELECT HIREDATE
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT HIREDATE
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL
+  4  GROUP BY JOB
+  5* ORDER BY HIREDATE DESC
+SQL> /
+SELECT HIREDATE
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT HIREDATE
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL
+  4* ORDER BY HIREDATE DESC
+SQL> /
+
+HIREDATE                                                                                                                                                                                                
+---------                                                                                                                                                                                               
+28-SEP-81                                                                                                                                                                                               
+08-SEP-81                                                                                                                                                                                               
+22-FEB-81                                                                                                                                                                                               
+20-FEB-81                                                                                                                                                                                               
+
+SQL> SELECT MIN(SAL),JOB
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%A'
+  4  GROUP BY JOB;
+
+no rows selected
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN'
+  4  GROUPBY DEPTNO;
+GROUPBY DEPTNO
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN'
+  4* GROUP BY DEPTNO
+SQL> /
+
+  COUNT(*)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         4         30                                                                                                                                                                                   
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(*)>2;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO, COUNT(*), MGR
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+SELECT DEPTNO, COUNT(*), MGR
+                         *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO, COUNT(*), COUNT(MGR)
+  2  FROM EMP
+  3* GROUP BY DEPTNO
+SQL> /
+
+    DEPTNO   COUNT(*) COUNT(MGR)                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+        30          6          6                                                                                                                                                                        
+        20          5          5                                                                                                                                                                        
+        10          3          2                                                                                                                                                                        
+
+SQL> SELECT MIN(SAL),JOB
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%S'
+  4  GROUP BY JOB;
+
+  MIN(SAL) JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+       950 CLERK                                                                                                                                                                                        
+      2975 MANAGER                                                                                                                                                                                      
+
+SQL> SELECT DEPNO
+  2  FROM EMP
+  3  WHERE JOB LIKE '%MAN%' AND SAL>1000;
+SELECT DEPNO
+       *
+ERROR at line 1:
+ORA-00904: "DEPNO": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3* WHERE JOB LIKE '%MAN%' AND SAL>1000
+SQL> /
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+
+7 rows selected.
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY JOB
+  4  HAVING COUNT(*)>3;
+SELECT DEPTNO
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,JOB
+  2  FROM EMP
+  3  GROUP BY JOB
+  4* HAVING COUNT(*)>3
+SQL> /
+SELECT DEPTNO,JOB
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN'
+  4  GROUP BY JOB
+  5* HAVING COUNT(*)>3
+SQL> /
+SELECT DEPTNO
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN'
+  4  GROUP BY DEPTNO
+  5* HAVING COUNT(*)>3
+SQL> /
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO,JOB,ENAME,SUM(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 20 AND SAL >2000
+  4  GROUP BY DEPTNO
+  5  ORDER BY DEPTNO DESC;
+SELECT DEPTNO,JOB,ENAME,SUM(SAL)
+              *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,JOB,ENAME,SUM(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 20 AND SAL >2000
+  4  GROUP BY DEPTNO,JOB,ENAME
+  5* ORDER BY DEPTNO DESC
+SQL> /
+
+    DEPTNO JOB       ENAME        SUM(SAL)                                                                                                                                                              
+---------- --------- ---------- ----------                                                                                                                                                              
+        30 MANAGER   BLAKE            2850                                                                                                                                                              
+        10 MANAGER   CLARK            2450                                                                                                                                                              
+        10 PRESIDENT KING             5000                                                                                                                                                              
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,JOB,ENAME,SUM(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 20 AND SAL >2000
+  4* ORDER BY DEPTNO DESC
+SQL> /
+SELECT DEPTNO,JOB,ENAME,SUM(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,JOB,ENAME,SUM(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 20 AND SAL >2000
+  4  GROUP BY DEPTNO,JOB,ENAME
+  5* ORDER BY DEPTNO DESC
+SQL> /
+
+    DEPTNO JOB       ENAME        SUM(SAL)                                                                                                                                                              
+---------- --------- ---------- ----------                                                                                                                                                              
+        30 MANAGER   BLAKE            2850                                                                                                                                                              
+        10 MANAGER   CLARK            2450                                                                                                                                                              
+        10 PRESIDENT KING             5000                                                                                                                                                              
+
+SQL> SELECT MAX(SAL),MGR
+  2  FROM EMP
+  3  GROUP BY MGR;
+
+  MAX(SAL)        MGR                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+      2975       7839                                                                                                                                                                                   
+      5000                                                                                                                                                                                              
+      1300       7782                                                                                                                                                                                   
+      1600       7698                                                                                                                                                                                   
+       800       7902                                                                                                                                                                                   
+      3000       7566                                                                                                                                                                                   
+      1100       7788                                                                                                                                                                                   
+
+7 rows selected.
+
+SQL> SELECT DEPTNO, SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  ORDER BY SUM(SAL) DESC;
+
+    DEPTNO   SUM(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        20      10875                                                                                                                                                                                   
+        30       9400                                                                                                                                                                                   
+        10       8750                                                                                                                                                                                   
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='MANAGER';
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4* GROUP BY DEPTNO
+SQL> /
+
+  COUNT(*)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1         30                                                                                                                                                                                   
+         1         20                                                                                                                                                                                   
+         1         10                                                                                                                                                                                   
+
+SQL> SELECT SUM(SAL),JOB
+  2  FROM EMP
+  3  WHERE JOB IN ('CLERK','MANAGER') AND SAL>1500 AND COMM IS NULL;
+SELECT SUM(SAL),JOB
+                *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SUM(SAL),JOB
+  2  FROM EMP
+  3  WHERE JOB IN ('CLERK','MANAGER') AND SAL>1500 AND COMM IS NULL
+  4* GROUP BY JOB
+SQL> /
+
+  SUM(SAL) JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+      8275 MANAGER                                                                                                                                                                                      
+
+SQL> SELECT COUNT(*),SUM(SAL),DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  ORDER BY SUM(SAL) DESC;
+
+  COUNT(*)   SUM(SAL)     DEPTNO                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+         5      10875         20                                                                                                                                                                        
+         6       9400         30                                                                                                                                                                        
+         3       8750         10                                                                                                                                                                        
+
+SQL> SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  EHRTR JOB ='MANAGER'
+  4  GROUP BY DEPTNO;
+EHRTR JOB ='MANAGER'
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB ='MANAGER'
+  4* GROUP BY DEPTNO
+SQL> /
+
+  COUNT(*)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1         30                                                                                                                                                                                   
+         1         20                                                                                                                                                                                   
+         1         10                                                                                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%A%A%';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+
+SQL> SELECT JOB,DEPTNO
+  2  FROM EMP
+  3  WHERE HIRE
+  4  
+SQL> SELECT HIREDATE,MGR,JOB
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4  GROUP BY HIREDATE
+  5  ORDER BY HIREDATE DESC;
+SELECT HIREDATE,MGR,JOB
+                *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT HIREDATE,MGR,JOB
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4* ORDER BY HIREDATE DESC
+SQL> /
+
+HIREDATE         MGR JOB                                                                                                                                                                                
+--------- ---------- ---------                                                                                                                                                                          
+09-JUN-81       7839 MANAGER                                                                                                                                                                            
+01-MAY-81       7839 MANAGER                                                                                                                                                                            
+02-APR-81       7839 MANAGER                                                                                                                                                                            
+
+SQL> SELECT MIN(SAL),JOB
+  2  FROM EMP;
+SELECT MIN(SAL),JOB
+                *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MIN(SAL),JOB,MGR
+  2  FROM EMP
+  3* GROUP BY SAL
+SQL> /
+SELECT MIN(SAL),JOB,MGR
+                *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MIN(SAL),JOB,MGR
+  2  FROM EMP
+  3* GROUP BY JOB
+SQL> /
+SELECT MIN(SAL),JOB,MGR
+                    *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MIN(SAL),JOB,MGR
+  2  FROM EMP
+  3* GROUP BY JOB,MGR
+SQL> /
+
+  MIN(SAL) JOB              MGR                                                                                                                                                                         
+---------- --------- ----------                                                                                                                                                                         
+       800 CLERK           7902                                                                                                                                                                         
+      5000 PRESIDENT                                                                                                                                                                                    
+       950 CLERK           7698                                                                                                                                                                         
+      1100 CLERK           7788                                                                                                                                                                         
+      1300 CLERK           7782                                                                                                                                                                         
+      1250 SALESMAN        7698                                                                                                                                                                         
+      2450 MANAGER         7839                                                                                                                                                                         
+      3000 ANALYST         7566                                                                                                                                                                         
+
+8 rows selected.
+
+SQL> SELECT DEPTNO,JOB
+  2  FROM EMP
+  3  WHERE JOB='%ER%';
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,JOB
+  2  FROM EMP
+  3* WHERE JOB LIKE'%ER%'
+SQL> /
+
+    DEPTNO JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+        20 CLERK                                                                                                                                                                                        
+        20 MANAGER                                                                                                                                                                                      
+        30 MANAGER                                                                                                                                                                                      
+        10 MANAGER                                                                                                                                                                                      
+        20 CLERK                                                                                                                                                                                        
+        30 CLERK                                                                                                                                                                                        
+        10 CLERK                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> SELECT MIN(SAL)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '__A__';
+
+  MIN(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      1100                                                                                                                                                                                              
+
+SQL> SELECT MIN (SAL)
+  2  FROM EMP
+  3  WHERE JOB IN ('SALESMAN','CLERK');
+
+  MIN(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+       800                                                                                                                                                                                              
+
+SQL> SELECT DNAME
+  2  FROM EMP
+  3  GROUP BY DNAME
+  4  HAVING  COUNT(*)>3;
+GROUP BY DNAME
+         *
+ERROR at line 3:
+ORA-00904: "DNAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  GROUP BY DNAME
+  4* HAVING  COUNT(*)>3
+SQL> /
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  GROUP BY DNAME
+  4* HAVING  COUNT(*)>1
+SQL> /
+
+no rows selected
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(*)>3;
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         6                                                                                                                                                                                              
+         5                                                                                                                                                                                              
+
+SQL> SELECT COUNT(*),DEPTNO,JOB
+  2  FROM EMP
+  3  WHERE SAL>1000
+  4  GROUP BY DEPTNO,JOB;
+
+  COUNT(*)     DEPTNO JOB                                                                                                                                                                               
+---------- ---------- ---------                                                                                                                                                                         
+         4         30 SALESMAN                                                                                                                                                                          
+         1         20 MANAGER                                                                                                                                                                           
+         1         20 CLERK                                                                                                                                                                             
+         1         10 PRESIDENT                                                                                                                                                                         
+         1         30 MANAGER                                                                                                                                                                           
+         1         10 CLERK                                                                                                                                                                             
+         1         10 MANAGER                                                                                                                                                                           
+         2         20 ANALYST                                                                                                                                                                           
+
+8 rows selected.
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE MGR=7839 AND ENAME LIKR '%S';
+WHERE MGR=7839 AND ENAME LIKR '%S'
+                         *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3* WHERE MGR=7839 AND ENAME LIKE '%S'
+SQL> /
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN'
+  4  GROUP BY DEPTNO
+  5  HAVING COUNT(*)>2;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPT
+  4  HAVING SUM(SAL)<5000;
+GROUP BY DEPT
+         *
+ERROR at line 3:
+ORA-00904: "DEPT": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4* HAVING SUM(SAL)<5000
+SQL> /
+
+no rows selected
+
+SQL> SELECT MIN(SAL)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%K'
+  4  ;
+
+  MIN(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2450                                                                                                                                                                                              
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MIN(SAL)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%K'
+  4* GROUP BY JOB
+  5  /
+
+  MIN(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2450                                                                                                                                                                                              
+
+SQL> SELECT MAX(HIREDATE)
+  2  FROM EMP
+  3  WHERE ENAME NOT LIKE '%N'
+  4  GROUP BYJOB;
+GROUP BYJOB
+      *
+ERROR at line 4:
+ORA-00924: missing BY keyword 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(HIREDATE)
+  2  FROM EMP
+  3  WHERE ENAME NOT LIKE '%N'
+  4* GROUP BY JOB
+SQL> /
+
+MAX(HIRED                                                                                                                                                                                               
+---------                                                                                                                                                                                               
+23-MAY-87                                                                                                                                                                                               
+08-SEP-81                                                                                                                                                                                               
+17-NOV-81                                                                                                                                                                                               
+09-JUN-81                                                                                                                                                                                               
+19-APR-87                                                                                                                                                                                               
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB
+  4  HAVING MAX(SAL)>2000;
+
+  MAX(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      5000                                                                                                                                                                                              
+      2975                                                                                                                                                                                              
+      3000                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(*)>2;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE COMM>250 AND MGR LIKE '76%';
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+MARTIN                                                                                                                                                                                                  
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE COMM>250 AND MGR LIKE '76%'
+  4* GROUP BY JOB
+SQL> /
+SELECT ENAME
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB
+  2  FROM EMP
+  3  WHERE COMM>250 AND MGR LIKE '76%'
+  4* GROUP BY JOB
+SQL> /
+SELECT ENAME,JOB
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB
+  2  FROM EMP
+  3* WHERE COMM>250 AND MGR LIKE '76%'
+  4  /
+
+ENAME      JOB                                                                                                                                                                                          
+---------- ---------                                                                                                                                                                                    
+ALLEN      SALESMAN                                                                                                                                                                                     
+WARD       SALESMAN                                                                                                                                                                                     
+MARTIN     SALESMAN                                                                                                                                                                                     
+
+SQL> SELECT COUNT(HIREDATE)
+  2  FROM EMP
+  3  WHERE HIREDATE BETWEEN '01-JAN-80' AND '31-DEC-82';
+
+COUNT(HIREDATE)                                                                                                                                                                                         
+---------------                                                                                                                                                                                         
+             12                                                                                                                                                                                         
+
+SQL> SELECT DEPTNO,SUM(SAL)
+  2  FROM EMP
+  3  ORDER BY SAL DESC;
+SELECT DEPTNO,SUM(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4* ORDER BY SAL DESC
+SQL> /
+ORDER BY SAL DESC
+         *
+ERROR at line 4:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4* ORDER BY SUM(SAL) DESC
+SQL> /
+
+    DEPTNO   SUM(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        20      10875                                                                                                                                                                                   
+        30       9400                                                                                                                                                                                   
+        10       8750                                                                                                                                                                                   
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB LIKE '%T'
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         2                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  
+SQL> SELECT MAX(SAL),DEPT
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 20
+  4  GROUP BY DEPTNO
+  5  HAVING MAX(SAL)>2000
+  6  ORDER BY MAX(SAL) ;
+SELECT MAX(SAL),DEPT
+                *
+ERROR at line 1:
+ORA-00904: "DEPT": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 20
+  4  GROUP BY DEPTNO
+  5  HAVING MAX(SAL)>2000
+  6* ORDER BY MAX(SAL) 
+SQL> /
+
+  MAX(SAL)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+      2850         30                                                                                                                                                                                   
+      5000         10                                                                                                                                                                                   
+
+SQL> SELECT COUNT(*),JOB,ENAME
+  2  FROM EMP
+  3  WHERE MGR LIKE '%8'
+  4  GROUP BY JOB;
+SELECT COUNT(*),JOB,ENAME
+                    *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*),JOB,ENAME
+  2  FROM EMP
+  3  WHERE MGR LIKE '%8'
+  4* GROUP BY JOB,ENAME
+SQL> /
+
+  COUNT(*) JOB       ENAME                                                                                                                                                                              
+---------- --------- ----------                                                                                                                                                                         
+         1 SALESMAN  WARD                                                                                                                                                                               
+         1 SALESMAN  TURNER                                                                                                                                                                             
+         1 CLERK     ADAMS                                                                                                                                                                              
+         1 SALESMAN  MARTIN                                                                                                                                                                             
+         1 CLERK     JAMES                                                                                                                                                                              
+         1 SALESMAN  ALLEN                                                                                                                                                                              
+
+6 rows selected.
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB ='SALESMAN'
+  4  GROUP BY JOB
+  5  WHERE COUNT(*)>1;
+WHERE COUNT(*)>1
+*
+ERROR at line 5:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB ='SALESMAN'
+  4  GROUP BY JOB
+  5* HAVING COUNT(*)>1
+SQL> /
+SELECT DEPTNO
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,JOB
+  2  FROM EMP
+  3  WHERE JOB ='SALESMAN'
+  4  GROUP BY JOB
+  5* HAVING COUNT(*)>1
+SQL> /
+SELECT DEPTNO,JOB
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB ='SALESMAN'
+  4* HAVING COUNT(*)>1
+  5  /
+SELECT DEPTNO
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN'
+  4  GROUP BY DEPTNO
+  5  HAVING COUNT(*)>1;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+
+SQL> SELECT*
+  2  FROM EMP
+  3  WHERE SAL NOT BETWEEN 1250 AND 4000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR IS NOT NULL AND SAL BETWEEN 1000 AND 2500
+  4  GROUP BY DEPTNO;
+SELECT ENAME
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME'JOB
+  2  FROM EMP
+  3  WHERE MGR IS NOT NULL AND SAL BETWEEN 1000 AND 2500
+  4* GROUP BY DEPTNO
+SQL> /
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB
+  2  FROM EMP
+  3  WHERE MGR IS NOT NULL AND SAL BETWEEN 1000 AND 2500
+  4* GROUP BY JOB
+SQL> /
+SELECT ENAME,JOB
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT JOB,ENAME
+  2  FROM EMP
+  3  WHERE MGR IS NOT NULL AND SAL BETWEEN 1000 AND 2500
+  4* GROUP BY JOB
+SQL> /
+SELECT JOB,ENAME
+           *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT JOB,ENAME
+  2  FROM EMP
+  3  WHERE MGR IS NOT NULL AND SAL BETWEEN 1000 AND 2500
+  4* ORDER BY JOB
+SQL> 
+SQL> /
+
+JOB       ENAME                                                                                                                                                                                         
+--------- ----------                                                                                                                                                                                    
+CLERK     ADAMS                                                                                                                                                                                         
+CLERK     MILLER                                                                                                                                                                                        
+MANAGER   CLARK                                                                                                                                                                                         
+SALESMAN  WARD                                                                                                                                                                                          
+SALESMAN  TURNER                                                                                                                                                                                        
+SALESMAN  ALLEN                                                                                                                                                                                         
+SALESMAN  MARTIN                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE SAL>2000 AND JOB NOT IN 'MANAGER';
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+
+SQL> SELECT MAX(HIREDATE), MIN(HIREDATE)
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL
+  4  ORDER BY JOB;
+
+MAX(HIRED MIN(HIRED                                                                                                                                                                                     
+--------- ---------                                                                                                                                                                                     
+28-SEP-81 20-FEB-81                                                                                                                                                                                     
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4  GROUP BY JOB
+  5  ORDER BY DEPTNO;
+ORDER BY DEPTNO
+         *
+ERROR at line 5:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='MANAGER'
+  4* GROUP BY DEPTNO
+  5  /
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN' AND NOT IN DEPTNO 20
+  4  GROUP BY DEPTNO;
+WHERE JOB='SALESMAN' AND NOT IN DEPTNO 20
+                             *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN' AND DEPTNO NOT IN 20
+  4* GROUP BY DEPTNO
+SQL> /
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         4                                                                                                                                                                                              
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN' AND DEPTNO NOT IN 20
+  4* ORDER BY DEPTNO
+SQL> /
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         4                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPNO
+  4  HAVING COUNT(*)=3;
+GROUP BY DEPNO
+         *
+ERROR at line 3:
+ORA-00904: "DEPNO": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4* HAVING COUNT(*)=3
+SQL> /
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+    DEPTNO   MAX(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+        30       2850                                                                                                                                                                                   
+        20       3000                                                                                                                                                                                   
+        10       5000                                                                                                                                                                                   
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE 'S%' OR ENAMELIKE 'A%'
+  4  GROUP BY ENAME
+  5  HAVING COUNT(*)=3;
+WHERE ENAME LIKE 'S%' OR ENAMELIKE 'A%'
+                                   *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE 'S%' OR ENAME LIKE 'A%'
+  4  GROUP BY ENAME
+  5* HAVING COUNT(*)=3
+SQL> /
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE 'S%' OR ENAME LIKE 'A%'
+  4  GROUP BY JOB
+  5* HAVING COUNT(*)>=3
+SQL> /
+
+no rows selected
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE JOB LIKE '%MAN%' AND DEPTNO =30;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+
+SQL> SELECT SAL
+  2  FROM EMP
+  3  WHERESAL>5000
+  4  GROUP BY DEPTNO,
+  5  ;
+WHERESAL>5000
+        *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SAL
+  2  FROM EMP
+  3  WHERESAL>5000
+  4* GROUP BY DEPTNO
+  5  /
+WHERESAL>5000
+        *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SAL
+  2  FROM EMP
+  3  WHERE SAL>5000
+  4* GROUP BY DEPTNO
+SQL> /
+SELECT SAL
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE SAL>5000
+  4* GROUP BY DEPTNO
+SQL> /
+
+no rows selected
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB='PRESIDENT'
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING SUM(SAL)>5000;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE COMM>500
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING SUM(SAL)>5000;
+
+    DEPTNO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        30                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+
+SQL> SPOOL OFF

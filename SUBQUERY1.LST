@@ -1,0 +1,335 @@
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE ENAME='SCOTT);
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME ='SCOTT';)
+  6  /
+           WHERE ENAME ='SCOTT';)
+                               *
+ERROR at line 5:
+ORA-00911: invalid character 
+
+
+SQL> SELECT*
+  2  FROM EMP
+  3  WHERE SAL<(SELECT SAL
+  4             FROM EMP
+  5             WHERE ENAME='MILLER');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB=(SELECT JOB
+  4             FROM EMP
+  5             WHERE ENAME='SCOTT');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+
+SQL> SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM EMP WHERE ENAME='ALLEN' AND SAL > 2000;
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3* WHERE DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN' AND SAL > 2000
+SQL> /
+WHERE DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN' AND SAL > 2000
+              *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3* WHERE SAL > 2000 AND DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN';
+SQL> ;
+  1  SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3* WHERE SAL > 2000 AND DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN';
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3* WHERE SAL > 2000 AND DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN'
+SQL> /
+WHERE SAL > 2000 AND DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN'
+                             *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3* WHERE SAL > 2000 AND DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN'
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3* WHERE SAL > 2000 AND DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME='ALLEN'
+  4  
+SQL> SELECT*
+  2  FROM EMP
+  3  WHERE SAL >(SELECT SAL
+  4  ED
+  5  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT*
+  2  FROM EMP
+  3  WHERE SAL >(SELECT SAL 
+  4              FROM EMP
+  5              WHERE ENAME= 'SMITH') AND SAL<(SELECT SAL
+  6                                            FROM EMP
+  7*                                           WHERE ENAME='BLAKE');
+  8  ;
+                                          WHERE ENAME='BLAKE');
+                                                              *
+ERROR at line 7:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT*
+  2  FROM EMP
+  3  WHERE SAL >(SELECT SAL 
+  4              FROM EMP
+  5              WHERE ENAME= 'SMITH') AND SAL<(SELECT SAL
+  6                                             FROM EMP
+  7*                                            WHERE ENAME='BLAKE');
+  8  /
+                                           WHERE ENAME='BLAKE');
+                                                               *
+ERROR at line 7:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT*
+  2  FROM EMP
+  3  WHERE SAL >(SELECT SAL 
+  4              FROM EMP
+  5              WHERE ENAME= 'SMITH') AND SAL<(SELECT SAL
+  6                                             FROM EMP
+  7*                                            WHERE ENAME='KING');
+SQL> /
+                                           WHERE ENAME='KING');
+                                                              *
+ERROR at line 7:
+ORA-00911: invalid character 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT*
+  2  FROM EMP
+  3  WHERE SAL >(SELECT SAL 
+  4              FROM EMP
+  5              WHERE ENAME= 'SMITH') AND SAL<(SELECT SAL
+  6                                             FROM EMP
+  7*                                            WHERE ENAME='KING')
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                   
+
+12 rows selected.
+
+SQL> SELECT
+  2  *
+  3  FROM EMP
+  4  WHERE HIREDATE<( SELECT ENAME
+  5  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT
+  2  *
+  3  FROM EMP
+  4* WHERE HIREDATE<( SELECT HIREDATE FROM EMP WHERE ENAME='BLAKE')
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT
+  2  *
+  3  FROM EMP
+  4* WHERE HIREDATE>( SELECT HIREDATE FROM EMP WHERE ENAME='BLAKE')
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                   
+
+9 rows selected.
+
+SQL> SELECT DNMAE,LOC
+  2  FROM DEPT
+  3  WHRRE ENAME=(SELECT ENAME
+  4               FROM EMP
+  5               WHERE ENAME='WARD';
+WHRRE ENAME=(SELECT ENAME
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNMAE,LOC
+  2  FROM DEPT
+  3  WHRRE DEPTNO=(SELECT DEPTNO
+  4               FROM EMP
+  5*              WHERE ENAME='WARD'
+SQL> /
+WHRRE DEPTNO=(SELECT DEPTNO
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHRRE DEPTNO=(SELECT DEPTNO
+  4               FROM EMP
+  5*              WHERE ENAME='WARD'
+SQL> /
+WHRRE DEPTNO=(SELECT DEPTNO
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHRRE DEPTNO=(SELECT DEPTNO
+  4               FROM EMP
+  5*              WHERE ENAME='WARD')
+SQL> /
+WHRRE DEPTNO=(SELECT DEPTNO
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4               FROM EMP
+  5*              WHERE ENAME='WARD')
+SQL> /
+
+DNAME          LOC                                                                                                                                                                                      
+-------------- -------------                                                                                                                                                                            
+SALES          CHICAGO                                                                                                                                                                                  
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE LOC='NEW YORK');
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+CLARK                                                                                                                                                                                                   
+KING                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                  
+
+SQL> SELECT*
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE DNAME='SALES');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+
+6 rows selected.
+
+SQL> SPOOL OFF

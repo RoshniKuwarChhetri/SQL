@@ -1,0 +1,54 @@
+SQL> SELECT Mr Smith || ENAME
+  2  FROM EMP;
+SELECT Mr Smith || ENAME
+                *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT 'Mr' || ENAME
+  2  FROM EMP;
+
+'MR'||ENAME                                                                                                                                                                                             
+------------                                                                                                                                                                                            
+MrSMITH                                                                                                                                                                                                 
+MrALLEN                                                                                                                                                                                                 
+MrWARD                                                                                                                                                                                                  
+MrJONES                                                                                                                                                                                                 
+MrMARTIN                                                                                                                                                                                                
+MrBLAKE                                                                                                                                                                                                 
+MrCLARK                                                                                                                                                                                                 
+MrSCOTT                                                                                                                                                                                                 
+MrKING                                                                                                                                                                                                  
+MrTURNER                                                                                                                                                                                                
+MrADAMS                                                                                                                                                                                                 
+MrJAMES                                                                                                                                                                                                 
+MrFORD                                                                                                                                                                                                  
+MrMILLER                                                                                                                                                                                                
+
+14 rows selected.
+
+SQL> SELECT 'Hi, i am ' || ENAME || 'working as a ' || JOB || 'earning salary ' || SAL
+  2  || 'and hired in  ' || ' hired in ' || HIREDATE || ' and earning commission of ' || COMM
+  3  FROM EMP;
+
+'HI,IAM'||ENAME||'WORKINGASA'||JOB||'EARNINGSALARY'||SAL||'ANDHIREDIN'||'HIREDIN'||HIREDATE||'ANDEARNINGCOMMISSIONOF'||COMM                                                                             
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
+Hi, i am SMITHworking as a CLERKearning salary 800and hired in   hired in 17-DEC-80 and earning commission of                                                                                           
+Hi, i am ALLENworking as a SALESMANearning salary 1600and hired in   hired in 20-FEB-81 and earning commission of 300                                                                                   
+Hi, i am WARDworking as a SALESMANearning salary 1250and hired in   hired in 22-FEB-81 and earning commission of 500                                                                                    
+Hi, i am JONESworking as a MANAGERearning salary 2975and hired in   hired in 02-APR-81 and earning commission of                                                                                        
+Hi, i am MARTINworking as a SALESMANearning salary 1250and hired in   hired in 28-SEP-81 and earning commission of 1400                                                                                 
+Hi, i am BLAKEworking as a MANAGERearning salary 2850and hired in   hired in 01-MAY-81 and earning commission of                                                                                        
+Hi, i am CLARKworking as a MANAGERearning salary 2450and hired in   hired in 09-JUN-81 and earning commission of                                                                                        
+Hi, i am SCOTTworking as a ANALYSTearning salary 3000and hired in   hired in 19-APR-87 and earning commission of                                                                                        
+Hi, i am KINGworking as a PRESIDENTearning salary 5000and hired in   hired in 17-NOV-81 and earning commission of                                                                                       
+Hi, i am TURNERworking as a SALESMANearning salary 1500and hired in   hired in 08-SEP-81 and earning commission of 0                                                                                    
+Hi, i am ADAMSworking as a CLERKearning salary 1100and hired in   hired in 23-MAY-87 and earning commission of                                                                                          
+Hi, i am JAMESworking as a CLERKearning salary 950and hired in   hired in 03-DEC-81 and earning commission of                                                                                           
+Hi, i am FORDworking as a ANALYSTearning salary 3000and hired in   hired in 03-DEC-81 and earning commission of                                                                                         
+Hi, i am MILLERworking as a CLERKearning salary 1300and hired in   hired in 23-JAN-82 and earning commission of                                                                                         
+
+14 rows selected.
+
+SQL> spool off

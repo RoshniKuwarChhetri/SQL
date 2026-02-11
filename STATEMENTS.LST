@@ -1,0 +1,485 @@
+SQL> CREATE TABLE STUDENT
+  2  (SID NUMBER(4) PRIMARY KEY CHECK(SID>0) CHECK(LENGTH(SID)=4),
+  3  SNAME VARCHAR(20) NOT NULL,
+  4  COURSE VARCHAR(20)  NOT NULL,
+  5  DOB DATE,
+  6  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10)
+  7  );
+
+Table created.
+
+SQL> DESC STUDENT;
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                               NOT NULL NUMBER(4)
+ SNAME                                                                                                             NOT NULL VARCHAR2(20)
+ COURSE                                                                                                            NOT NULL VARCHAR2(20)
+ DOB                                                                                                                        DATE
+ PHONE_NO                                                                                                                   NUMBER(10)
+
+SQL> RENAME STUDENT TO STUD;
+
+Table renamed.
+
+SQL> ALTER TABLE STUD
+  2  ADD E-MAIL VARCHAR(20) UNIQUE;
+ADD E-MAIL VARCHAR(20) UNIQUE
+     *
+ERROR at line 2:
+ORA-00902: invalid datatype 
+
+
+SQL> EDE
+SP2-0042: unknown command "EDE" - rest of line ignored.
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE STUD
+  2* ADD EMAIL VARCHAR(20) UNIQUE
+SQL> /
+
+Table altered.
+
+SQL> ALTER TABLE STUD
+  2  RENAME COLUMN EMAIL TO EMAIL_ID;
+
+Table altered.
+
+SQL> DESC STUD
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                               NOT NULL NUMBER(4)
+ SNAME                                                                                                             NOT NULL VARCHAR2(20)
+ COURSE                                                                                                            NOT NULL VARCHAR2(20)
+ DOB                                                                                                                        DATE
+ PHONE_NO                                                                                                                   NUMBER(10)
+ EMAIL_ID                                                                                                                   VARCHAR2(20)
+
+SQL> ALTER TABLE STUD
+  2  DROM COLUMN EMAIL_ID;
+DROM COLUMN EMAIL_ID
+*
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE STUD
+  2* DROM COLUMN EMAIL_ID
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE STUD
+  2* DROP COLUMN EMAIL_ID
+SQL> /
+
+Table altered.
+
+SQL> ALTER TABLE STUD
+  2  MODIFY SNAME VARCHAR(30);
+
+Table altered.
+
+SQL> ALTER TABLE STUD
+  2  MODIFY SNAME VARCHAR(30) NULL;
+
+Table altered.
+
+SQL> DESC STUD
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                               NOT NULL NUMBER(4)
+ SNAME                                                                                                                      VARCHAR2(30)
+ COURSE                                                                                                            NOT NULL VARCHAR2(20)
+ DOB                                                                                                                        DATE
+ PHONE_NO                                                                                                                   NUMBER(10)
+
+SQL> ALTER TABLE STUD
+  2  ADD CONSTRAINT UK_PHONE_NO UNIQUE(PHONE_NO);
+
+Table altered.
+
+SQL> CREATE TABLE CUSTOMER
+  2  (CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+  3  SNAME VARCHAR(20) NOT NULL,
+  4  P_METHOD VARCHAR(10) NOT NULL,
+  5  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10,
+  6  DOB DATE);
+PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10,
+                                                               *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE CUSTOMER
+  2  (CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+  3  CNAME VARCHAR(20) NOT NULL,
+  4  P_METHOD VARCHAR(10) NOT NULL,
+  5  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10),
+  6* DOB DATE)
+SQL> /
+
+Table created.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE CUSTOMER
+  2  CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+  3  CNAME VARCHAR(20) NOT NULL,
+  4  P_METHOD VARCHAR(10) NOT NULL,
+  5  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10),
+  6* DOB DATE)
+SQL> /
+CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+*
+ERROR at line 2:
+ORA-00922: missing or invalid option 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE CUSTOMER
+  2  (CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+  3  CNAME VARCHAR(20) NOT NULL,
+  4  P_METHOD VARCHAR(10) NOT NULL,
+  5  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10),
+  6* DOB DATE)
+SQL> /
+CREATE TABLE CUSTOMER
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE CUSTOMER
+  2  CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+  3  CNAME VARCHAR(20) NOT NULL,
+  4  P_METHOD VARCHAR(10) NOT NULL,
+  5  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10),
+  6* DOB DATE)
+SQL> /
+CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+*
+ERROR at line 2:
+ORA-00922: missing or invalid option 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE CUSTOMER
+  2  CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+  3  CNAME VARCHAR(20) NOT NULL,
+  4  P_METHOD VARCHAR(10) NOT NULL,
+  5  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10),
+  6* DOB DATE)
+SQL> 
+SQL> CREATE TABLE CUSTOMER
+  2  (CID NUMBER(4) PRIMARY KEY CHECK(CID>0) CHECK(LENGTH(CID)=4),
+  3  CNAME VARCHAR(20) NOT NULL,
+  4  P_METHOD VARCHAR(10) NOT NULL,
+  5  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10),
+  6  DOB DATE)
+  7  ;
+CREATE TABLE CUSTOMER
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL>  DESC CUSTOMER
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ CID                                                                                                               NOT NULL NUMBER(4)
+ CNAME                                                                                                             NOT NULL VARCHAR2(20)
+ P_METHOD                                                                                                          NOT NULL VARCHAR2(10)
+ PHONE_NO                                                                                                                   NUMBER(10)
+ DOB                                                                                                                        DATE
+
+SQL> ALTER TABLE STUD
+  2  ( ADD CID NUMBER(4)
+  3  );
+( ADD CID NUMBER(4)
+*
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE STUD
+  2* ADD CID NUMBER(4)
+  3  /
+
+Table altered.
+
+SQL> DESC STUD
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                               NOT NULL NUMBER(4)
+ SNAME                                                                                                                      VARCHAR2(30)
+ COURSE                                                                                                            NOT NULL VARCHAR2(20)
+ DOB                                                                                                                        DATE
+ PHONE_NO                                                                                                                   NUMBER(10)
+ CID                                                                                                                        NUMBER(4)
+
+SQL> ALTER TABLE STUD
+  2  ADD CONSTRAINT FK_CID FOREIGN KEY(CID) REFERENCES CUSTOMER(CID);
+
+Table altered.
+
+SQL> CREATE TABLE TRAINER
+  2  (TID NUMBER(4) PRIMARY KEY(TID>0) CHECK(LENGTH(CID)=4)
+  3  , TNAME VARCHAR(20) NOT NULL,
+  4  SID NUMBER(4),
+  5  CONSTRAINT FK_SID FOREIGN KEY(SID) REFERENCES STUD(SID)
+  6  );
+(TID NUMBER(4) PRIMARY KEY(TID>0) CHECK(LENGTH(CID)=4)
+                          *
+ERROR at line 2:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE TRAINER
+  2  (TID NUMBER(4) PRIMARY KEY,
+  3  TNAME VARCHAR(20),
+  4  SID NUMBER(4),
+  5  CONSTRAINT FK_SID FOREIGN KEY(SID) REFERENCES STUD(SID)
+  6* )
+SQL> /
+
+Table created.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE BIKE
+  2  (BID NUMBER(4) PRIMARY KEY,
+  3  TBNAME VARCHAR(20),
+  4  SID NUMBER(4),
+  5  FOREIGN KEY(SID) REFERENCES STUD(SID)
+  6* )
+SQL> /
+
+Table created.
+
+SQL> ALTER TABLE BIKE
+  2  DROP CONSTRAINT
+  3  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE TRAINER
+  2* DROP CONSTRAINT FK_SID
+SQL> /
+
+Table altered.
+
+SQL> SELECT CONSTRAINT_NAME,CONSTRAINT_TYPE
+  2  FROM USER_CONSTRAINTS
+  3  WHERE TABLE_NAME='BIKE';
+
+CONSTRAINT_NAME                C                                                                                                                                                                        
+------------------------------ -                                                                                                                                                                        
+SYS_C005551                    P                                                                                                                                                                        
+SYS_C005552                    R                                                                                                                                                                        
+
+SQL> ALTER TABLE BIKE
+  2  DROP CONSTRAINT SYS_C005552;
+
+Table altered.
+
+SQL> DESC BIKE
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ BID                                                                                                               NOT NULL NUMBER(4)
+ TBNAME                                                                                                                     VARCHAR2(20)
+ SID                                                                                                                        NUMBER(4)
+
+SQL> DESC STUD
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                               NOT NULL NUMBER(4)
+ SNAME                                                                                                                      VARCHAR2(30)
+ COURSE                                                                                                            NOT NULL VARCHAR2(20)
+ DOB                                                                                                                        DATE
+ PHONE_NO                                                                                                                   NUMBER(10)
+ CID                                                                                                                        NUMBER(4)
+
+SQL> ALTER TABLE STUD
+  2  DROP COLUMN CID;
+
+Table altered.
+
+SQL> DESC STUD
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                               NOT NULL NUMBER(4)
+ SNAME                                                                                                                      VARCHAR2(30)
+ COURSE                                                                                                            NOT NULL VARCHAR2(20)
+ DOB                                                                                                                        DATE
+ PHONE_NO                                                                                                                   NUMBER(10)
+
+SQL> INSERT INTO STUD VALUES(1001,'NIBDA','SQL','14-FEB-26',1234567899);
+
+1 row created.
+
+SQL> INSERT INTO STUD VALUES(1002,'NIBDI', 'SQL',NILL,NULL);
+INSERT INTO STUD VALUES(1002,'NIBDI', 'SQL',NILL,NULL)
+                                            *
+ERROR at line 1:
+ORA-00984: column not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* INSERT INTO STUD VALUES(1002,'NIBDI', 'SQL',NULL,NULL)
+SQL> /
+
+1 row created.
+
+SQL> SELECT*
+  2  FROM STUD;
+
+       SID SNAME                          COURSE               DOB         PHONE_NO                                                                                                                     
+---------- ------------------------------ -------------------- --------- ----------                                                                                                                     
+      1001 NIBDA                          SQL                  14-FEB-26 1234567899                                                                                                                     
+      1002 NIBDI                          SQL                                                                                                                                                           
+
+SQL> INSERT INTO STUD(SID, COURSE, SNAME) VALUES(1003,'SQL','SUNNY');
+
+1 row created.
+
+SQL>  SELECT*
+  2   FROM STUD;
+
+       SID SNAME                          COURSE               DOB         PHONE_NO                                                                                                                     
+---------- ------------------------------ -------------------- --------- ----------                                                                                                                     
+      1001 NIBDA                          SQL                  14-FEB-26 1234567899                                                                                                                     
+      1002 NIBDI                          SQL                                                                                                                                                           
+      1003 SUNNY                          SQL                                                                                                                                                           
+
+SQL> INSERT INTO STUD(SID,COURSE,SNAME) VALUES(&SID,'&SUBJECT','&SNAME');
+Enter value for sid: 1004
+Enter value for subject: SQL
+Enter value for sname: ROSHNI
+old   1: INSERT INTO STUD(SID,COURSE,SNAME) VALUES(&SID,'&SUBJECT','&SNAME')
+new   1: INSERT INTO STUD(SID,COURSE,SNAME) VALUES(1004,'SQL','ROSHNI')
+
+1 row created.
+
+SQL>  SELECT*
+  2   FROM STUD;
+
+       SID SNAME                          COURSE               DOB         PHONE_NO                                                                                                                     
+---------- ------------------------------ -------------------- --------- ----------                                                                                                                     
+      1001 NIBDA                          SQL                  14-FEB-26 1234567899                                                                                                                     
+      1002 NIBDI                          SQL                                                                                                                                                           
+      1003 SUNNY                          SQL                                                                                                                                                           
+      1004 ROSHNI                         SQL                                                                                                                                                           
+
+SQL> UPDATE STUD
+  2  SET COURSE='JAVA'
+  3  WHERE SID=1004;
+
+1 row updated.
+
+SQL> SELECT*
+  2  FROM STUD;
+
+       SID SNAME                          COURSE               DOB         PHONE_NO                                                                                                                     
+---------- ------------------------------ -------------------- --------- ----------                                                                                                                     
+      1001 NIBDA                          SQL                  14-FEB-26 1234567899                                                                                                                     
+      1002 NIBDI                          SQL                                                                                                                                                           
+      1003 SUNNY                          SQL                                                                                                                                                           
+      1004 ROSHNI                         JAVA                                                                                                                                                          
+
+SQL> DELETE FROM STUD
+  2  WHERE SID='SUNNY';
+WHERE SID='SUNNY'
+          *
+ERROR at line 2:
+ORA-01722: invalid number 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  DELETE FROM STUD
+  2* WHERE SID='1003'
+SQL> /
+
+1 row deleted.
+
+SQL> SELECT *
+  2  FROM STUD;
+
+       SID SNAME                          COURSE               DOB         PHONE_NO                                                                                                                     
+---------- ------------------------------ -------------------- --------- ----------                                                                                                                     
+      1001 NIBDA                          SQL                  14-FEB-26 1234567899                                                                                                                     
+      1002 NIBDI                          SQL                                                                                                                                                           
+      1004 ROSHNI                         JAVA                                                                                                                                                          
+
+SQL> GRANT SELECT
+  2  OM STUD
+  3  TO HR;
+GRANT SELECT
+      *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  GRANT SELECT
+  2  ON STUD
+  3* TO HR
+SQL> /
+
+Grant succeeded.
+
+SQL> CONN HR/SUNNY
+Connected.
+SQL> SELECT*
+  2  FROM STUD;
+FROM STUD
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT *
+  2  FROM SCOTT.STUD;
+
+       SID SNAME                          COURSE               DOB         PHONE_NO                                                                                                                     
+---------- ------------------------------ -------------------- --------- ----------                                                                                                                     
+      1001 NIBDA                          SQL                  14-FEB-26 1234567899                                                                                                                     
+      1002 NIBDI                          SQL                                                                                                                                                           
+      1004 ROSHNI                         JAVA                                                                                                                                                          
+
+SQL> 
+SQL> CONN SCOTT/SUNNY
+Connected.
+SQL> REVOKE SELECT
+  2  ON STUD
+  3  FROM HR;
+
+Revoke succeeded.
+
+SQL> SPOOL OFF

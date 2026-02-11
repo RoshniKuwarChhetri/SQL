@@ -1,0 +1,58 @@
+SQL> SHOW USER
+USER is "SYSTEM"
+SQL> CREATE USER ROSHNI IDENTIFIED BY SUNNY
+  2  ;
+
+User created.
+
+SQL> CONN ROSHNI
+ERROR:
+ORA-01045: user ROSHNI lacks CREATE SESSION privilege; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> SHOW USER
+USER is ""
+SQL> CONN SYSTEN/SUNNY
+ERROR:
+ORA-01017: invalid username/password; logon denied 
+
+
+SQL> CONN SYSTEM/SUNNY
+Connected.
+SQL> SHOW USER
+USER is "SYSTEM"
+SQL> GRANT create session
+  2  to roshni
+  3  ;
+
+Grant succeeded.
+
+SQL> conn roshni
+Connected.
+SQL> show user
+USER is "ROSHNI"
+SQL> conn system/sunny
+Connected.
+SQL> grant all privileges
+  2  to roshni;
+
+Grant succeeded.
+
+SQL> conn roshni
+Connected.
+SQL> create user rule identified by sunny;
+
+User created.
+
+SQL> drop user rule;
+
+User dropped.
+
+SQL> conn system
+Connected.
+SQL> drop user roshni;
+
+User dropped.
+
+SQL> spool off

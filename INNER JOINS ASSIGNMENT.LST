@@ -1,0 +1,210 @@
+SQL> SELECT ENAME,LOC
+  2  FROM EMP,DEPT
+  3  WHERE EMP.DEPTNO=DEPT.EMPNO;
+WHERE EMP.DEPTNO=DEPT.EMPNO
+                 *
+ERROR at line 3:
+ORA-00904: "DEPT"."EMPNO": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,LOC
+  2  FROM EMP,DEPT
+  3* WHERE EMP.DEPTNO=DEPT.DEPTNO
+SQL> /
+
+ENAME      LOC                                                                                                                                                                                          
+---------- -------------                                                                                                                                                                                
+SMITH      DALLAS                                                                                                                                                                                       
+ALLEN      CHICAGO                                                                                                                                                                                      
+WARD       CHICAGO                                                                                                                                                                                      
+JONES      DALLAS                                                                                                                                                                                       
+MARTIN     CHICAGO                                                                                                                                                                                      
+BLAKE      CHICAGO                                                                                                                                                                                      
+CLARK      NEW YORK                                                                                                                                                                                     
+SCOTT      DALLAS                                                                                                                                                                                       
+KING       NEW YORK                                                                                                                                                                                     
+TURNER     CHICAGO                                                                                                                                                                                      
+ADAMS      DALLAS                                                                                                                                                                                       
+JAMES      CHICAGO                                                                                                                                                                                      
+FORD       DALLAS                                                                                                                                                                                       
+MILLER     NEW YORK                                                                                                                                                                                     
+
+14 rows selected.
+
+SQL> SELECT DNAME,SAL
+  2  FROM DEPT,EMP
+  3  WHERE DEPT.DEPTNO=EMP.DEPTNO AND JOB='ACCOUNTING';
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,SAL
+  2  FROM DEPT,EMP
+  3* WHERE DEPT.DEPTNO=EMP.DEPTNO AND DNAME='ACCOUNTING'
+SQL> /
+
+DNAME                 SAL                                                                                                                                                                               
+-------------- ----------                                                                                                                                                                               
+ACCOUNTING           2450                                                                                                                                                                               
+ACCOUNTING           5000                                                                                                                                                                               
+ACCOUNTING           1300                                                                                                                                                                               
+
+SQL> SELECT DNAME,SAL*12
+  2  FROM DEPT,EMP
+  3  WHERE DEPT.DEPTNO=EMP.DEPTNO AND SAL>2340;
+
+DNAME              SAL*12                                                                                                                                                                               
+-------------- ----------                                                                                                                                                                               
+RESEARCH            35700                                                                                                                                                                               
+SALES               34200                                                                                                                                                                               
+ACCOUNTING          29400                                                                                                                                                                               
+RESEARCH            36000                                                                                                                                                                               
+ACCOUNTING          60000                                                                                                                                                                               
+RESEARCH            36000                                                                                                                                                                               
+
+6 rows selected.
+
+SQL> SELECT ENAME,DNAME
+  2  FROM EMP,DEPT
+  3  WHERE EMP.DEPTNO=DEPT.DEPTNO AND INSTR(ENAME,'A')>1;
+
+ENAME      DNAME                                                                                                                                                                                        
+---------- --------------                                                                                                                                                                               
+WARD       SALES                                                                                                                                                                                        
+MARTIN     SALES                                                                                                                                                                                        
+BLAKE      SALES                                                                                                                                                                                        
+CLARK      ACCOUNTING                                                                                                                                                                                   
+JAMES      SALES                                                                                                                                                                                        
+
+SQL> SELECT DNAME,JOB
+  2  FROM DEPT,EMP
+  3  WHERE DEPT.DEPTNO=EMP.EMPNO AND INSTR(JOB,'S',1) AND INSTR(DNAME,'S',1)
+  4  ;
+WHERE DEPT.DEPTNO=EMP.EMPNO AND INSTR(JOB,'S',1) AND INSTR(DNAME,'S',1)
+                                                 *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,JOB
+  2  FROM DEPT,EMP
+  3* WHERE DEPT.DEPTNO=EMP.EMPNO AND SUBSTR(JOB,'1,1)='S' AND SUBSTR(DNAME,1,1)='S'
+  4  /
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> EDED
+SP2-0042: unknown command "EDED" - rest of line ignored.
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,JOB
+  2  FROM DEPT,EMP
+  3* WHERE DEPT.DEPTNO=EMP.EMPNO AND SUBSTR(JOB,1,1)='S' AND SUBSTR(DNAME,1,1)='S'
+SQL> /
+
+no rows selected
+
+SQL> SELECT DNAME,EMP
+  2  FROM
+  3  
+SQL> SELECT DNAME,JOB
+  2  FROM DEPT,EMP
+  3  WHERE DEPT.DEPTNO=EMP.DEPTNO AND MGR=7839;
+
+DNAME          JOB                                                                                                                                                                                      
+-------------- ---------                                                                                                                                                                                
+RESEARCH       MANAGER                                                                                                                                                                                  
+SALES          MANAGER                                                                                                                                                                                  
+ACCOUNTING     MANAGER                                                                                                                                                                                  
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,MGR
+  2  FROM DEPT,EMP
+  3* WHERE DEPT.DEPTNO=EMP.DEPTNO AND MGR=7839
+SQL> /
+
+DNAME                 MGR                                                                                                                                                                               
+-------------- ----------                                                                                                                                                                               
+RESEARCH             7839                                                                                                                                                                               
+SALES                7839                                                                                                                                                                               
+ACCOUNTING           7839                                                                                                                                                                               
+
+SQL> SELECT DNAME,HIREDATE
+  2  FROM DEPT,EMP
+  3  WHERE DEPT.DEPTNO=EMP.DEPTNO AND HIREDATE>'31-DEC-83' AND JOB IN('ACCOUNTING','RESEARCH');
+
+no rows selected
+
+SQL> SELECT ENAME,DNAME
+  2  FROM EMP,DEPT
+  3  WHERE EMP.DEPTNO=DEPT.DEPTNO AND COMM IS NOT NULL AND DEPT IN(10,30);
+WHERE EMP.DEPTNO=DEPT.DEPTNO AND COMM IS NOT NULL AND DEPT IN(10,30)
+                                                      *
+ERROR at line 3:
+ORA-00904: "DEPT": invalid identifier 
+
+
+SQL> EDED
+SP2-0042: unknown command "EDED" - rest of line ignored.
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,DNAME
+  2  FROM EMP,DEPT
+  3* WHERE EMP.DEPTNO=DEPT.DEPTNO AND COMM IS NOT NULL AND DEPTNO IN(10,30)
+SQL> /
+WHERE EMP.DEPTNO=DEPT.DEPTNO AND COMM IS NOT NULL AND DEPTNO IN(10,30)
+                                                      *
+ERROR at line 3:
+ORA-00918: column ambiguously defined 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,DNAME
+  2  FROM EMP,DEPT
+  3* WHERE EMP.DEPTNO=DEPT.DEPTNO AND COMM IS NOT NULL AND EMP.DEPTNO IN(10,30)
+SQL> /
+
+ENAME      DNAME                                                                                                                                                                                        
+---------- --------------                                                                                                                                                                               
+ALLEN      SALES                                                                                                                                                                                        
+WARD       SALES                                                                                                                                                                                        
+MARTIN     SALES                                                                                                                                                                                        
+TURNER     SALES                                                                                                                                                                                        
+
+SQL> SELECT DNAME,EMPNO
+  2  FROM DEPT,EMP
+  3  WHERE DEPT.DEPTNO,EMP.DEPTNO AND EMPNO IN (7839,7902) AND LOC='NEW YORK';
+WHERE DEPT.DEPTNO,EMP.DEPTNO AND EMPNO IN (7839,7902) AND LOC='NEW YORK'
+                 *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,EMPNO
+  2  FROM DEPT,EMP
+  3* WHERE DEPT.DEPTNO=EMP.DEPTNO AND EMPNO IN (7839,7902) AND LOC='NEW YORK'
+SQL> /
+
+DNAME               EMPNO                                                                                                                                                                               
+-------------- ----------                                                                                                                                                                               
+ACCOUNTING           7839                                                                                                                                                                               
+
+SQL> SPOOL OFF

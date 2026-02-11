@@ -1,0 +1,4 @@
+SQL> "C:\Users\Roshni\Desktop\SQL\Assignment on max &min"
+SP2-0734: unknown command beginning ""C:\Users\..." - rest of line ignored.
+SQL> spool "C:\Users\Roshni\Desktop\SQL\ Assignment on max &min"
+Enter value for min: 
